@@ -1,0 +1,7 @@
+This project aims to add semi-automatic index tuning to postgresql (9.1.4 version)
+as described in http://arxiv.org/pdf/1004.1249v6.pdf
+
+We need hypothetical indexes for the process and are using code base from http://www.inf.puc-rio.br/~postgresql/index.php?lan=en as base.
+
+References:
+* Semi-Automatic Index Tuning: Keeping DBAs in the Loop http://arxiv.org/pdf/1004.1249v6.pdf
