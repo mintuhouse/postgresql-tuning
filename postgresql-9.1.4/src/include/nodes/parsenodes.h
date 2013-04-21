@@ -150,6 +150,9 @@ typedef struct Query
 
 	List	   *constraintDeps; /* a list of pg_constraint OIDs that the query
 								 * depends on to be semantically valid */
+	bool       hypothetical;	/* HYPOTHETICAL INDEX
+								 * SELF TUNING GROUP - PUC-RIO - 2010
+								 * true if we are using the EXPLAIN HYPOTHETICAL command */
 } Query;
 
 
@@ -1116,6 +1119,11 @@ typedef enum ObjectType
 	OBJECT_FOREIGN_SERVER,
 	OBJECT_FOREIGN_TABLE,
 	OBJECT_FUNCTION,
+	OBJECT_HYP_INDEX, /* HYPOTHETICAL INDEX
+					   * SELF TUNING GROUP - PUC-RIO - 2010
+					   *
+					   * Because the hypothetical index can act on different objects
+					   */
 	OBJECT_INDEX,
 	OBJECT_LANGUAGE,
 	OBJECT_LARGEOBJECT,
@@ -2058,6 +2066,11 @@ typedef struct IndexStmt
 	List	   *options;		/* options from WITH clause */
 	Node	   *whereClause;	/* qualification (partial-index predicate) */
 	List	   *excludeOpNames; /* exclusion operator names, or NIL if none */
+	bool        hypothetical;   /* is index hypothetical?
+								 *
+								 * HYPOTHETICAL INDEX
+								 * SELF TUNING GROUP - PUC-RIO - 2010
+								 */
 	Oid			indexOid;		/* OID of an existing index, if any */
 	bool		unique;			/* is index unique? */
 	bool		primary;		/* is index on primary key? */
@@ -2442,6 +2455,11 @@ typedef struct ExplainStmt
 {
 	NodeTag		type;
 	Node	   *query;			/* the query (see comments above) */
+	bool        hypothetical;   /* HYPOTHETICAL INDEX
+								 * SELF TUNING GROUP - PUC-RIO - 2010
+								 *
+								 * will the Explain Statement consider hypothetical indexes?
+								 */
 	List	   *options;		/* list of DefElem nodes */
 } ExplainStmt;
 

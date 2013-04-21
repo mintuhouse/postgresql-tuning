@@ -53,6 +53,8 @@ typedef struct PlannedStmt
 	/* rtable indexes of target relations for INSERT/UPDATE/DELETE */
 	List	   *resultRelations;	/* integer list of RT indexes, or NIL */
 
+	bool       hypothetical;    /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 - true if the statement is EXPLAIN HYPOTHETICAL */
+
 	Node	   *utilityStmt;	/* non-null if this is DECLARE CURSOR */
 
 	IntoClause *intoClause;		/* target for SELECT INTO / CREATE TABLE AS */

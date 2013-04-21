@@ -24,6 +24,7 @@
  * the TID array, just enough to hold as many heap tuples as fit on one page.
  *
  *
+ * Portions Copyright (c) 2010, Pontifícia Universidade Católica do Rio de Janeiro (Puc-Rio)
  * Portions Copyright (c) 1996-2011, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
@@ -856,8 +857,21 @@ lazy_scan_heap(Relation onerel, LVRelStats *vacrelstats,
 	}
 
 	/* Do post-vacuum cleanup and statistics update for each index */
-	for (i = 0; i < nindexes; i++)
+	
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We don't the step of post-vacuum cleanup and statistics update
+	 * for the hypothetical index, because they don't EXIST!!!
+	 */
+	/*for (i = 0; i < nindexes; i++)
 		lazy_cleanup_index(Irel[i], indstats[i], vacrelstats);
+	*/
+	/* Must do post-vacuum cleanup and statistics update anyway */
+	for (i = 0; i < nindexes; i++)
+		if (!Irel[i]->rd_index->indishypothetical)
+			lazy_cleanup_index(Irel[i], indstats[i], vacrelstats);
 
 	/* If no indexes, make log report that lazy_vacuum_heap would've made */
 	if (vacuumed_pages)

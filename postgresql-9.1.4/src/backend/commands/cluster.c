@@ -113,6 +113,13 @@ cluster(ClusterStmt *stmt, bool isTopLevel)
 		Oid			tableOid,
 					indexOid = InvalidOid;
 		Relation	rel;
+		/**
+		 * HYPOTHETICAL INDEX
+		 * SELF TUNING GROUP - PUC-RIO - 2010
+		 *
+		 * create a variable of type Relation where we'll have a hypothetical attribute
+		 */
+		Relation indexRelation;
 
 		/* Find and lock the table */
 		rel = heap_openrv(stmt->relation, AccessExclusiveLock);
@@ -177,6 +184,22 @@ cluster(ClusterStmt *stmt, bool isTopLevel)
 						(errcode(ERRCODE_UNDEFINED_OBJECT),
 					   errmsg("index \"%s\" for table \"%s\" does not exist",
 							  stmt->indexname, stmt->relation->relname)));
+			/**
+			 * HYPOTHETICAL INDEX
+			 * SELF TUNING GROUP - PUC-RIO - 2010
+			 *
+			 * Here we ask if the index is hypothetical, in that case an ERROR will be thrown
+			 */
+			indexRelation = index_open(indexOid, AccessExclusiveLock);
+			if (indexRelation->rd_index->indishypothetical)
+			{
+					index_close(indexRelation, AccessExclusiveLock);
+					ereport(ERROR,
+									(errcode(ERRCODE_UNDEFINED_OBJECT),
+					   errmsg("index \"%s\" for table \"%s\" is a hypothetical index",
+									  stmt->indexname, stmt->relation->relname)));
+			}
+			index_close(indexRelation, NoLock); // SELF-TUNING MODULE: HYPOTHETICAL
 		}
 
 		/* close relation, keep lock till commit */

@@ -1192,8 +1192,19 @@ BeginCopy(bool is_from,
 		 * function and is executed repeatedly.  (See also the same hack in
 		 * DECLARE CURSOR and PREPARE.)  XXX FIXME someday.
 		 */
-		rewritten = pg_analyze_and_rewrite((Node *) copyObject(raw_query),
+		/*
+		 * HYPOTHETICAL INDEX
+		 * SELF TUNING GROUP - PUC-RIO - 2010
+		 *
+		 * The final parameter is related to the hypothetical index
+		 * and could be FALSE or TRUE because in case of a statement COPY(CMD_UTILITY)
+		 * doen't make any difference, when we are making the query(Node)
+		 */
+		/*rewritten = pg_analyze_and_rewrite((Node *) copyObject(raw_query),
 										   queryString, NULL, 0);
+		*/		
+		rewritten = pg_analyze_and_rewrite((Node *) copyObject(raw_query),
+										   queryString, NULL, 0, false);
 
 		/* We don't expect more or less than one result query */
 		if (list_length(rewritten) != 1)
@@ -1928,7 +1939,15 @@ CopyFrom(CopyState cstate)
 	}
 	resultRelInfo->ri_TrigInstrument = NULL;
 
-	ExecOpenIndices(resultRelInfo);
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2009
+	 *
+	 * The last parameter is FALSE in this function because we don't need the information
+	 * about the hypothetical index
+	 */
+	//ExecOpenIndices(resultRelInfo);
+	ExecOpenIndices(resultRelInfo, false);
 
 	estate->es_result_relations = resultRelInfo;
 	estate->es_num_result_relations = 1;

@@ -338,7 +338,12 @@ extern bool ExecRelationIsTargetRelation(EState *estate, Index scanrelid);
 extern Relation ExecOpenScanRelation(EState *estate, Index scanrelid);
 extern void ExecCloseScanRelation(Relation scanrel);
 
-extern void ExecOpenIndices(ResultRelInfo *resultRelInfo);
+/* HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * we have to know what kind of indexes we are going to working with
+ */
+extern void ExecOpenIndices(ResultRelInfo *resultRelInfo, bool hypothetical);
 extern void ExecCloseIndices(ResultRelInfo *resultRelInfo);
 extern List *ExecInsertIndexTuples(TupleTableSlot *slot, ItemPointer tupleid,
 					  EState *estate);

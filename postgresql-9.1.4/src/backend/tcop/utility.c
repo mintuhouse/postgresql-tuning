@@ -639,11 +639,35 @@ standard_ProcessUtility(Node *parsetree,
 			{
 				DropStmt   *stmt = (DropStmt *) parsetree;
 
+				/*
+				 * HYPOTHETICAL INDEX
+				 * SELF TUNING GROUP - PUC-RIO - 2010
+				 *
+				 * the value of hypothetical start with FALSE
+				 */
+				bool       hypothetical = false;
+
 				switch (stmt->removeType)
 				{
 					case OBJECT_TABLE:
 					case OBJECT_SEQUENCE:
 					case OBJECT_VIEW:
+					/*
+					 * HYPOTHETICAL INDEX
+					 * SELF TUNING GROUP - PUC-RIO - 2010
+					 *
+					 * if the stmt->removeType is OBJECT_HYP_INDEX
+					 * the value of hypothetical change to TRUE
+					 */
+					case OBJECT_HYP_INDEX:
+		                        hypothetical = true;
+					/*
+					 * HYPOTHETICAL INDEX
+					 * SELF TUNING GROUP - PUC-RIO - 2010
+					 *
+					 * the value of hypothetical is sent to the function RemoveIndex
+					 * according the index type.
+					 */
 					case OBJECT_INDEX:
 					case OBJECT_FOREIGN_TABLE:
 						RemoveRelations(stmt);
@@ -956,7 +980,8 @@ standard_ProcessUtility(Node *parsetree,
 							true,		/* check_rights */
 							false,		/* skip_build */
 							false,		/* quiet */
-							stmt->concurrent);	/* concurrent */
+							stmt->concurrent,	/* concurrent */
+							stmt->hypothetical); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 			}
 			break;
 
@@ -1746,6 +1771,15 @@ CreateCommandTag(Node *parsetree)
 				case OBJECT_VIEW:
 					tag = "DROP VIEW";
 					break;
+				/*
+				 * HYPOTHETICAL INDEX
+				 * SELF TUNING GROUP - PUC-RIO - 2010
+				 *
+				 * The drop tag for a hypothetical index
+				 */
+                case OBJECT_HYP_INDEX:
+                   tag = "DROP HYPOTHETICAL INDEX";
+                   break;
 				case OBJECT_INDEX:
 					tag = "DROP INDEX";
 					break;

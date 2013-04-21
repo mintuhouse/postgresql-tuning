@@ -702,6 +702,15 @@ RemoveRelations(DropStmt *drop)
 	ObjectAddresses *objects;
 	char		relkind;
 	ListCell   *cell;
+	bool hypothetical; /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
+	hypothetical = false; /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
+
+	/*
+	 * HYPOTHETICAL INDEX
+     * SELF TUNING GROUP - PUC-RIO - 2010
+	 * we need the relation to know if the index is hypothetical or not.
+    */
+    Relation      indexRelation;
 
 	/*
 	 * First we identify all the relations, then we delete them in a single
@@ -715,6 +724,11 @@ RemoveRelations(DropStmt *drop)
 		case OBJECT_TABLE:
 			relkind = RELKIND_RELATION;
 			break;
+		
+		case OBJECT_HYP_INDEX: /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
+			hypothetical = true;
+                        relkind = RELKIND_INDEX;
+                        break;
 
 		case OBJECT_INDEX:
 			relkind = RELKIND_INDEX;
@@ -783,6 +797,24 @@ RemoveRelations(DropStmt *drop)
 		if (relkind == RELKIND_INDEX)
 		{
 			tuple = SearchSysCache1(INDEXRELID, ObjectIdGetDatum(relOid));
+			/*
+        	 * HYPOTHETICAL INDEX
+		     * SELF TUNING GROUP - PUC-RIO - 2010
+		     *
+		     * it's an index, so check if this is hypothetical or real,
+		     * an ERROR will be thrown if the type of index that we try to remove
+		     * if a difference between the statement and the type of the index exist
+		    */
+		     indexRelation = index_open(relOid, RowExclusiveLock);
+		     if (indexRelation->rd_index->indishypothetical != hypothetical) 
+			 {
+             	char *msg = (hypothetical) ? "hypothetical" : "real";
+		        ereport(ERROR,
+                	(errcode(ERRCODE_WRONG_OBJECT_TYPE),
+                    	errmsg("index \"%s\" is not %s",
+                    		rel->relname, msg)));
+		     }
+     			index_close(indexRelation, NoLock);
 			if (HeapTupleIsValid(tuple))
 			{
 				Form_pg_index index = (Form_pg_index) GETSTRUCT(tuple);
@@ -996,7 +1028,7 @@ ExecuteTruncate(TruncateStmt *stmt)
 		InitResultRelInfo(resultRelInfo,
 						  rel,
 						  0,	/* dummy rangetable index */
-						  0);
+						  0); 
 		resultRelInfo++;
 	}
 	estate->es_result_relations = resultRelInfos;
@@ -5242,7 +5274,9 @@ ATExecAddIndex(AlteredTableInfo *tab, Relation rel,
 				check_rights,
 				skip_build,
 				quiet,
-				false);
+				false,
+				stmt->hypothetical); // HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010
+
 }
 
 /*

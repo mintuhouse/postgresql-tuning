@@ -617,6 +617,12 @@ UpdateIndexRelation(Oid indexoid,
 	values[Anum_pg_index_indclass - 1] = PointerGetDatum(indclass);
 	values[Anum_pg_index_indoption - 1] = PointerGetDatum(indoption);
 	values[Anum_pg_index_indexprs - 1] = exprsDatum;
+	/* HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * Showing if the index is hypothetical or not in the pg_index
+	 */
+	values[Anum_pg_index_indishypothetical - 1] = BoolGetDatum(indexInfo->ii_Hypothetical);
 	if (exprsDatum == (Datum) 0)
 		nulls[Anum_pg_index_indexprs - 1] = true;
 	values[Anum_pg_index_indpred - 1] = predDatum;
@@ -1049,8 +1055,27 @@ index_create(Relation heapRelation,
 	{
 		index_register(heapRelationId, indexRelationId, indexInfo);
 	}
-	else if (skip_build)
+	/* HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * we can skip the build if we are working with a hypothetical index because
+	 * we will not actually build the index
+	 */
+	else if (skip_build || indexInfo->ii_Hypothetical)
 	{
+
+		/* HYPOTHETICAL INDEX
+		* SELF TUNING GROUP - PUC-RIO - 2010
+		*
+		* if we are dealing with a hypothetical index, we would need to register it
+		* in the relation and update the relcache entry
+		*/
+		if (indexInfo->ii_Hypothetical)
+ 	        {
+         	        index_register(heapRelationId, indexRelationId, indexInfo);
+                 	RelationCacheInvalidateEntry(heapRelationId);
+ 	        }		
+
 		/*
 		 * Caller is responsible for filling the index later on.  However,
 		 * we'd better make sure that the heap relation is correctly marked as
@@ -1302,9 +1327,27 @@ index_drop(Oid indexId)
 	 * that will make them update their index lists.
 	 */
 	heapId = IndexGetRelation(indexId);
-	userHeapRelation = heap_open(heapId, AccessExclusiveLock);
+
+	/* HYPOTHETICAL INDEX
+	* SELF TUNING GROUP - PUC-RIO - 2009
+	*
+	* hypothetical indexes do not need an ACCESS_EXCLUSIVE_LOCK on the relation
+	* because they are just hypothetical indexes, so an ACCESS_SHARE_LOCK is enough.
+	* Other backend processes could be doing EXPLAIN HYPOTHETICAL stmts that uses this
+        * index. But as the plans generated are never executed, this should mean no harm
+	*/
+	//userHeapRelation = heap_open(heapId, AccessExclusiveLock);
 
 	userIndexRelation = index_open(indexId, AccessExclusiveLock);
+
+	if (userIndexRelation->rd_index->indishypothetical)
+	{
+ 		userHeapRelation = heap_open(heapId, AccessShareLock);
+ 	}
+	else
+	{
+		userHeapRelation = heap_open(heapId, AccessExclusiveLock);
+	}
 
 	/*
 	 * There can no longer be anyone *else* touching the index, but we might
@@ -1442,6 +1485,13 @@ BuildIndexInfo(Relation index)
 	/* initialize index-build state to default */
 	ii->ii_Concurrent = false;
 	ii->ii_BrokenHotChain = false;
+
+	/* HYPOTHETICAL INDEX
+	* SELF TUNING GROUP - PUC-RIO - 2010
+	*
+	* initialize the hypothetical of IndexInfo record with the value of the opened index
+	*/
+    ii->ii_Hypothetical = indexStruct->indishypothetical;
 
 	return ii;
 }
@@ -2790,6 +2840,19 @@ reindex_index(Oid indexId, bool skip_constraint_checks)
 	 */
 	iRel = index_open(indexId, AccessExclusiveLock);
 
+	/* HYPOTHETICAL INDEX
+	* SELF TUNING GROUP - PUC-RIO - 2010
+	*
+	* if the index relation is hypothetical we close it without needing an exclusive lock
+	* because we can not do a reindex of an index that doesn't actually exist
+	*/
+ 	if (iRel->rd_index->indishypothetical)
+ 	{
+ 		index_close(iRel, NoLock);
+ 		ereport(ERROR, (errcode(ERRCODE_WRONG_OBJECT_TYPE),
+ 			errmsg("relation is a hypothetical index")));
+ 	}
+
 	/*
 	 * Don't allow reindex on temp tables of other backends ... their local
 	 * buffer manager is not going to cope.
@@ -3006,10 +3069,24 @@ reindex_relation(Oid relid, int flags)
 		{
 			Oid			indexOid = lfirst_oid(indexId);
 
+			Relation	indexDesc; // HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010
+
 			if (is_pg_class)
 				RelationSetIndexList(rel, doneIndexes, InvalidOid);
 
-			reindex_index(indexOid, !(flags & REINDEX_REL_CHECK_CONSTRAINTS));
+			/** HYPOTHETICAL INDEX
+			 * SELF TUNING GROUP - PUC-RIO - 2010
+			 *
+			 * we re-index all the indexes that aren't hypothetical, and don't do anything
+			 * for the hypothetical ones.
+			 */
+			indexDesc = index_open(indexOid, AccessShareLock);
+
+			if(!indexDesc->rd_index->indishypothetical) {
+				heap_close(indexDesc, NoLock);
+				reindex_index(indexOid, !(flags & REINDEX_REL_CHECK_CONSTRAINTS));
+	 		}
+
 
 			CommandCounterIncrement();
 

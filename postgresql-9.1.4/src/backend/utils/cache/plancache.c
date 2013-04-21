@@ -31,6 +31,7 @@
  * be infrequent enough that more-detailed tracking is not worth the effort.
  *
  *
+ * Portions Copyright (c) 2010, Pontifícia Universidade Católica do Rio de Janeiro (Puc-Rio)
  * Portions Copyright (c) 1996-2011, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
@@ -544,10 +545,16 @@ RevalidateCachedPlan(CachedPlanSource *plansource, bool useResOwner)
 												  plansource->parserSetup,
 												  plansource->parserSetupArg);
 		else
+		/* HYPOTHETICAL INDEX
+		 * SELF TUNING GROUP - PUC-RIO - 2010
+		 *
+		 * since we are revalidating a plan cache, we have certainty that we
+		 * are not using the hypothetical parameters
+		 */
 			slist = pg_analyze_and_rewrite(rawtree,
 										   plansource->query_string,
 										   plansource->param_types,
-										   plansource->num_params);
+										   plansource->num_params, false); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 
 		if (plansource->fully_planned)
 		{

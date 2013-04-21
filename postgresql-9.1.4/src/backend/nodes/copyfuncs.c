@@ -86,6 +86,12 @@ _copyPlannedStmt(PlannedStmt *from)
 	COPY_NODE_FIELD(planTree);
 	COPY_NODE_FIELD(rtable);
 	COPY_NODE_FIELD(resultRelations);
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 * Copy the hypothetical scalar field to the new PlannedStmt
+	 */
+	COPY_SCALAR_FIELD(hypothetical);
 	COPY_NODE_FIELD(utilityStmt);
 	COPY_NODE_FIELD(intoClause);
 	COPY_NODE_FIELD(subplans);
@@ -2419,6 +2425,13 @@ _copyQuery(Query *from)
 	COPY_NODE_FIELD(setOperations);
 	COPY_NODE_FIELD(constraintDeps);
 
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 * Copy the hypothetical scalar field to the new Query
+	 */
+	COPY_SCALAR_FIELD(hypothetical);
+
 	return newnode;
 }
 
@@ -2805,6 +2818,14 @@ _copyIndexStmt(IndexStmt *from)
 	COPY_NODE_FIELD(indexParams);
 	COPY_NODE_FIELD(options);
 	COPY_NODE_FIELD(whereClause);
+
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 * Copy the hypothetical scalar field to the new IndexStmt
+	 */
+	COPY_SCALAR_FIELD(hypothetical);
+
 	COPY_NODE_FIELD(excludeOpNames);
 	COPY_SCALAR_FIELD(indexOid);
 	COPY_SCALAR_FIELD(unique);

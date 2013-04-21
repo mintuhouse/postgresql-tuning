@@ -5,6 +5,7 @@
  *	  along with the relation's initial contents.
  *
  *
+ * Portions Copyright (c) 2010, Pontifícia Universidade Católica do Rio de Janeiro (Puc-Rio)
  * Portions Copyright (c) 1996-2011, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
@@ -38,6 +39,7 @@ CATALOG(pg_index,2610) BKI_WITHOUT_OIDS BKI_SCHEMA_MACRO
 	bool		indisexclusion; /* is this index for exclusion constraint? */
 	bool		indimmediate;	/* is uniqueness enforced immediately? */
 	bool		indisclustered; /* is this the index last clustered by? */
+	bool		indishypothetical; /* is this index hypothetical? * HYPOTHETICAL INDEX * SELF TUNING GROUP - PUC-RIO - 2010 */
 	bool		indisvalid;		/* is this index valid for use by queries? */
 	bool		indcheckxmin;	/* must we wait for xmin to be old? */
 	bool		indisready;		/* is this index ready for inserts? */
@@ -65,7 +67,12 @@ typedef FormData_pg_index *Form_pg_index;
  *		compiler constants for pg_index
  * ----------------
  */
-#define Natts_pg_index					17
+/* HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * we add the hypothetical entry for the pg_index
+ */
+#define Natts_pg_index					18
 #define Anum_pg_index_indexrelid		1
 #define Anum_pg_index_indrelid			2
 #define Anum_pg_index_indnatts			3
@@ -74,15 +81,16 @@ typedef FormData_pg_index *Form_pg_index;
 #define Anum_pg_index_indisexclusion	6
 #define Anum_pg_index_indimmediate		7
 #define Anum_pg_index_indisclustered	8
-#define Anum_pg_index_indisvalid		9
-#define Anum_pg_index_indcheckxmin		10
-#define Anum_pg_index_indisready		11
-#define Anum_pg_index_indkey			12
-#define Anum_pg_index_indcollation		13
-#define Anum_pg_index_indclass			14
-#define Anum_pg_index_indoption			15
-#define Anum_pg_index_indexprs			16
-#define Anum_pg_index_indpred			17
+#define Anum_pg_index_indishypothetical 9
+#define Anum_pg_index_indisvalid		10
+#define Anum_pg_index_indcheckxmin		11
+#define Anum_pg_index_indisready		12
+#define Anum_pg_index_indkey			13
+#define Anum_pg_index_indcollation		14
+#define Anum_pg_index_indclass			15
+#define Anum_pg_index_indoption			16
+#define Anum_pg_index_indexprs			17
+#define Anum_pg_index_indpred			18
 
 /*
  * Index AMs that support ordered scans must support these two indoption

@@ -869,8 +869,13 @@ ExecCloseScanRelation(Relation scanrel)
  *		resultRelInfo->ri_RelationDesc.
  * ----------------------------------------------------------------
  */
+/* HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * we have to check whether the index we are opening is hypothetical or not
+ */
 void
-ExecOpenIndices(ResultRelInfo *resultRelInfo)
+ExecOpenIndices(ResultRelInfo *resultRelInfo, bool hypothetical)
 {
 	Relation	resultRelation = resultRelInfo->ri_RelationDesc;
 	List	   *indexoidlist;
@@ -920,10 +925,34 @@ ExecOpenIndices(ResultRelInfo *resultRelInfo)
 		/* extract index key information from the index's pg_index info */
 		ii = BuildIndexInfo(indexDesc);
 
-		relationDescs[i] = indexDesc;
+		/* HYPOTHETICAL INDEX
+		 * SELF TUNING GROUP - PUC-RIO - 2009
+		 *
+		 * if the index that we are working with is hypothetical we just close it and
+		 * don't save its information because it's not a real index
+		 */
+		/*relationDescs[i] = indexDesc;
 		indexInfoArray[i] = ii;
 		i++;
+		*/
+			if((hypothetical)||(!ii->ii_Hypothetical))
+            {
+				relationDescs[i] = indexDesc;
+				indexInfoArray[i] = ii;
+				i++;
+            }
+            else
+            {
+            	index_close(indexDesc, RowExclusiveLock);
+            }
 	}
+
+	/* HYPOTHETICAL INDEX
+	* SELF TUNING GROUP - PUC-RIO - 2010
+	*
+	* we discard the hypothetical indexes and we just count the real ones
+	*/
+    resultRelInfo->ri_NumIndices = i;
 
 	list_free(indexoidlist);
 }

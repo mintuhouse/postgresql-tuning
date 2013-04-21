@@ -6,6 +6,7 @@
  * gram.y
  *	  POSTGRESQL BISON rules/actions
  *
+ * Portions Copyright (c) 2010, Pontifícia Universidade Católica do Rio de Janeiro (Puc-Rio)
  * Portions Copyright (c) 1996-2011, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
@@ -353,6 +354,7 @@ static void processCASbits(int cas_bits, int location, const char *constrType,
 %type <boolean> opt_instead
 %type <boolean> opt_unique opt_concurrently opt_verbose opt_full
 %type <boolean> opt_freeze opt_default opt_recheck
+%type <boolean> opt_hypothetical /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010: HYPOTHETICAL keyword */
 %type <defelt>	opt_binary opt_oids copy_delimiter
 
 %type <boolean> copy_from
@@ -516,7 +518,7 @@ static void processCASbits(int cas_bits, int location, const char *constrType,
 
 	GLOBAL GRANT GRANTED GREATEST GROUP_P
 
-	HANDLER HAVING HEADER_P HOLD HOUR_P
+	HANDLER HAVING HEADER_P HOLD HOUR_P HYPOTHETICAL  /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 
 	IDENTITY_P IF_P ILIKE IMMEDIATE IMMUTABLE IMPLICIT_P IN_P
 	INCLUDING INCREMENT INDEX INDEXES INHERIT INHERITS INITIALLY INLINE_P
@@ -4739,7 +4741,14 @@ DropStmt:	DROP drop_type IF_P EXISTS any_name_list opt_drop_behavior
 drop_type:	TABLE									{ $$ = OBJECT_TABLE; }
 			| SEQUENCE								{ $$ = OBJECT_SEQUENCE; }
 			| VIEW									{ $$ = OBJECT_VIEW; }
-			| INDEX									{ $$ = OBJECT_INDEX; }
+			| opt_hypothetical INDEX			 /* { $$ = OBJECT_INDEX; } HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
+				{
+					/* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
+					if ($1 == TRUE)
+						$$ = OBJECT_HYP_INDEX;
+					else
+						$$ = OBJECT_INDEX;
+				}
 			| FOREIGN TABLE							{ $$ = OBJECT_FOREIGN_TABLE; }
 			| TYPE_P								{ $$ = OBJECT_TYPE; }
 			| DOMAIN_P								{ $$ = OBJECT_DOMAIN; }
@@ -5675,24 +5684,30 @@ defacl_privilege_target:
  * Note: we cannot put TABLESPACE clause after WHERE clause unless we are
  * willing to make TABLESPACE a fully reserved word.
  *****************************************************************************/
-
-IndexStmt:	CREATE opt_unique INDEX opt_concurrently opt_index_name
+/* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
+IndexStmt:	CREATE opt_hypothetical opt_unique INDEX opt_concurrently opt_index_name
 			ON qualified_name access_method_clause '(' index_params ')'
 			opt_reloptions OptTableSpace where_clause
 				{
 					IndexStmt *n = makeNode(IndexStmt);
-					n->unique = $2;
-					n->concurrent = $4;
-					n->idxname = $5;
-					n->relation = $7;
-					n->accessMethod = $8;
-					n->indexParams = $10;
-					n->options = $12;
-					n->tableSpace = $13;
-					n->whereClause = $14;
+					n->hypothetical = $2;
+					n->unique = $3;
+					n->concurrent = $5;
+					n->idxname = $6;
+					n->relation = $8;
+					n->accessMethod = $9;
+					n->indexParams = $11;
+					n->options = $13;
+					n->tableSpace = $14;
+					n->whereClause = $15;
 					n->indexOid = InvalidOid;
 					$$ = (Node *)n;
 				}
+		;
+/* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
+opt_hypothetical:
+			HYPOTHETICAL							{ $$ = TRUE; }
+			| /*EMPTY*/				%prec UMINUS	{ $$ = FALSE; }
 		;
 
 opt_unique:
@@ -7850,16 +7865,18 @@ opt_name_list:
 /*****************************************************************************
  *
  *		QUERY:
- *				EXPLAIN [ANALYZE] [VERBOSE] query
+ *				EXPLAIN [HYPOTHETICAL] [ANALYZE] [VERBOSE] query
  *				EXPLAIN ( options ) query
  *
  *****************************************************************************/
 
+/* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 ExplainStmt:
-		EXPLAIN ExplainableStmt
+		EXPLAIN opt_hypothetical ExplainableStmt
 				{
 					ExplainStmt *n = makeNode(ExplainStmt);
-					n->query = $2;
+					n->hypothetical =$2;
+					n->query = $3;
 					n->options = NIL;
 					$$ = (Node *) n;
 				}

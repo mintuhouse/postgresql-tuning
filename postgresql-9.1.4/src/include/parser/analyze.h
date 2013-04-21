@@ -16,16 +16,29 @@
 
 #include "parser/parse_node.h"
 
-
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We are defining the parse_analyze function with one more attribute to
+ * represents hypothetical indexes.
+ */
 extern Query *parse_analyze(Node *parseTree, const char *sourceText,
-			  Oid *paramTypes, int numParams);
+			  Oid *paramTypes, int numParams, bool hypothetical);
 extern Query *parse_analyze_varparams(Node *parseTree, const char *sourceText,
 						Oid **paramTypes, int *numParams);
 
 extern Query *parse_sub_analyze(Node *parseTree, ParseState *parentParseState,
 				  CommonTableExpr *parentCTE,
 				  bool locked_from_parent);
-extern Query *transformStmt(ParseState *pstate, Node *parseTree);
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We are defining the transformStmt function with one more attribute to
+ * represents hypothetical indexes.
+ */
+extern Query *transformStmt(ParseState *pstate, Node *parseTree, bool hypothetical); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 
 extern bool analyze_requires_snapshot(Node *parseTree);
 

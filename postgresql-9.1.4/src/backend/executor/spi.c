@@ -1709,10 +1709,24 @@ _SPI_prepare_plan(const char *src, SPIPlanPtr plan, ParamListInfo boundParams)
 		else
 		{
 			/* Need a copyObject here to keep parser from modifying raw tree */
+			/* HYPOTHETICAL INDEX
+			 * SELF TUNING GROUP - PUC-RIO - 2010
+			 *
+			 * we sent false as the value for the hypothetical value because we are
+			 * sure we are not dealing with any hypothetical stmts at this point
+			 */		
+			/*		
 			stmt_list = pg_analyze_and_rewrite(copyObject(parsetree),
 											   src,
 											   plan->argtypes,
 											   plan->nargs);
+			*/
+			stmt_list = pg_analyze_and_rewrite(copyObject(parsetree),
+											   src,
+											   plan->argtypes,
+											   plan->nargs,
+											   false);
+			
 		}
 		stmt_list = pg_plan_queries(stmt_list, cursor_options, boundParams);
 

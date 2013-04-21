@@ -16,6 +16,7 @@
  * a quick copyObject() call before manipulating the query tree.
  *
  *
+ * Portions Copyright (c) 2010, Pontifícia Universidade Católica do Rio de Janeiro (Puc-Rio)
  * Portions Copyright (c) 1996-2011, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
@@ -977,6 +978,15 @@ generateClonedIndexStmt(CreateStmtContext *cxt, Relation source_idx,
 		index->tableSpace = NULL;
 	index->indexOid = InvalidOid;
 	index->unique = idxrec->indisunique;
+
+	/**
+	* HYPOTHETICAL INDEX
+	* SELF TUNING GROUP - PUC-RIO - 2010
+	*
+	* We are initializing the hypothetical index attribute value.
+	*/
+	index->hypothetical = idxrec->indishypothetical;
+
 	index->primary = idxrec->indisprimary;
 	index->concurrent = false;
 
@@ -2061,8 +2071,16 @@ transformRuleStmt(RuleStmt *stmt, const char *queryString,
 			addRTEtoQuery(sub_pstate, newrte, false, true, false);
 
 			/* Transform the rule action statement */
+			/**
+			* HYPOTHETICAL INDEX
+			* SELF TUNING GROUP - PUC-RIO - 2010
+			*
+			* In the rule action statement transformation, we have no hypothetical
+			* index treatment. So, we are passing the value false for hypothetical
+			* attribute.
+			*/
 			top_subqry = transformStmt(sub_pstate,
-									   (Node *) copyObject(action));
+									   (Node *) copyObject(action), false);
 
 			/*
 			 * We cannot support utility-statement actions (eg NOTIFY) with

@@ -240,6 +240,16 @@ standard_planner(Query *parse, int cursorOptions, ParamListInfo boundParams)
 	result = makeNode(PlannedStmt);
 
 	result->commandType = parse->commandType;
+
+	/**
+	* HYPOTHETICAL INDEX
+	* SELF TUNING GROUP - PUC-RIO - 2010
+	*
+	* Attribute the parser hypothetical attribute value to result hypothetical value.
+	* It's used for the planner knows that we want to use a hypothetical index or not.
+	* */
+	result->hypothetical = parse->hypothetical;
+
 	result->hasReturning = (parse->returningList != NIL);
 	result->hasModifyingCTE = parse->hasModifyingCTE;
 	result->canSetTag = parse->canSetTag;

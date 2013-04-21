@@ -14,6 +14,7 @@
  * optimizable statements.
  *
  *
+ * Portions Copyright (c) 2010, Pontifícia Universidade Católica do Rio de Janeiro (Puc-Rio)
  * Portions Copyright (c) 1996-2011, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
@@ -43,13 +44,25 @@
 #include "rewrite/rewriteManip.h"
 #include "utils/rel.h"
 
+/**
+* HYPOTHETICAL INDEX
+* SELF TUNING GROUP - PUC-RIO - 2010
+*
+* We add a new attribute called hypothetical.
+*/
 
-static Query *transformDeleteStmt(ParseState *pstate, DeleteStmt *stmt);
-static Query *transformInsertStmt(ParseState *pstate, InsertStmt *stmt);
+static Query *transformDeleteStmt(ParseState *pstate, DeleteStmt *stmt, bool hypothetical);
+static Query *transformInsertStmt(ParseState *pstate, InsertStmt *stmt, bool hypothetical);
 static List *transformInsertRow(ParseState *pstate, List *exprlist,
 				   List *stmtcols, List *icolumns, List *attrnos);
 static int	count_rowexpr_columns(ParseState *pstate, Node *expr);
-static Query *transformSelectStmt(ParseState *pstate, SelectStmt *stmt);
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new attribute called hypothetical.
+ */
+static Query *transformSelectStmt(ParseState *pstate, SelectStmt *stmt, bool hypothetical);
 static Query *transformValuesClause(ParseState *pstate, SelectStmt *stmt);
 static Query *transformSetOperationStmt(ParseState *pstate, SelectStmt *stmt);
 static Node *transformSetOperationTree(ParseState *pstate, SelectStmt *stmt,
@@ -57,10 +70,22 @@ static Node *transformSetOperationTree(ParseState *pstate, SelectStmt *stmt,
 static void determineRecursiveColTypes(ParseState *pstate,
 						   Node *larg, List *nrtargetlist);
 static void applyColumnNames(List *dst, List *src);
-static Query *transformUpdateStmt(ParseState *pstate, UpdateStmt *stmt);
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new attribute called hypothetical.
+ */
+static Query *transformUpdateStmt(ParseState *pstate, UpdateStmt *stmt, bool hypothetical);
 static List *transformReturningList(ParseState *pstate, List *returningList);
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new attribute called hypothetical.
+ */
 static Query *transformDeclareCursorStmt(ParseState *pstate,
-						   DeclareCursorStmt *stmt);
+						   DeclareCursorStmt *stmt, bool hypothetical);
 static Query *transformExplainStmt(ParseState *pstate,
 					 ExplainStmt *stmt);
 static void transformLockingClause(ParseState *pstate, Query *qry,
@@ -78,9 +103,15 @@ static void transformLockingClause(ParseState *pstate, Query *qry,
  * transformation, while utility-type statements are simply hung off
  * a dummy CMD_UTILITY Query node.
  */
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new attribute called hypothetical.
+ */
 Query *
 parse_analyze(Node *parseTree, const char *sourceText,
-			  Oid *paramTypes, int numParams)
+			  Oid *paramTypes, int numParams, bool hypothetical)
 {
 	ParseState *pstate = make_parsestate(NULL);
 	Query	   *query;
@@ -92,7 +123,13 @@ parse_analyze(Node *parseTree, const char *sourceText,
 	if (numParams > 0)
 		parse_fixed_parameters(pstate, paramTypes, numParams);
 
-	query = transformStmt(pstate, parseTree);
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We are passing the hypothetical value for query transformation
+	 */
+	query = transformStmt(pstate, parseTree, hypothetical);
 
 	free_parsestate(pstate);
 
@@ -119,7 +156,14 @@ parse_analyze_varparams(Node *parseTree, const char *sourceText,
 
 	parse_variable_parameters(pstate, paramTypes, numParams);
 
-	query = transformStmt(pstate, parseTree);
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * In this case of transformations, we can not leading with
+	 * hypothetical indexes. So, we pass false value for attribute hypothetical.
+	 */
+	query = transformStmt(pstate, parseTree, false);
 
 	/* make sure all is well with parameter types */
 	check_variable_parameters(pstate, query);
@@ -144,7 +188,14 @@ parse_sub_analyze(Node *parseTree, ParseState *parentParseState,
 	pstate->p_parent_cte = parentCTE;
 	pstate->p_locked_from_parent = locked_from_parent;
 
-	query = transformStmt(pstate, parseTree);
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We don't treat hypothetical indexes in sub-statements.
+	 * So we pass the false value for attribute hypothetical.
+	 */
+	query = transformStmt(pstate, parseTree, false);
 
 	free_parsestate(pstate);
 
@@ -155,8 +206,16 @@ parse_sub_analyze(Node *parseTree, ParseState *parentParseState,
  * transformStmt -
  *	  transform a Parse tree into a Query tree.
  */
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new boolean attribute called hypothetical.
+ * In this function body, we are just passing the value from
+ * hypothetical attribute for each function call.
+ */
 Query *
-transformStmt(ParseState *pstate, Node *parseTree)
+transformStmt(ParseState *pstate, Node *parseTree, bool hypothetical)
 {
 	Query	   *result;
 
@@ -166,15 +225,15 @@ transformStmt(ParseState *pstate, Node *parseTree)
 			 * Optimizable statements
 			 */
 		case T_InsertStmt:
-			result = transformInsertStmt(pstate, (InsertStmt *) parseTree);
+			result = transformInsertStmt(pstate, (InsertStmt *) parseTree, hypothetical); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 			break;
 
 		case T_DeleteStmt:
-			result = transformDeleteStmt(pstate, (DeleteStmt *) parseTree);
+			result = transformDeleteStmt(pstate, (DeleteStmt *) parseTree, hypothetical); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 			break;
 
 		case T_UpdateStmt:
-			result = transformUpdateStmt(pstate, (UpdateStmt *) parseTree);
+			result = transformUpdateStmt(pstate, (UpdateStmt *) parseTree, hypothetical); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 			break;
 
 		case T_SelectStmt:
@@ -184,7 +243,7 @@ transformStmt(ParseState *pstate, Node *parseTree)
 				if (n->valuesLists)
 					result = transformValuesClause(pstate, n);
 				else if (n->op == SETOP_NONE)
-					result = transformSelectStmt(pstate, n);
+					result = transformSelectStmt(pstate, n, hypothetical); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 				else
 					result = transformSetOperationStmt(pstate, n);
 			}
@@ -195,7 +254,7 @@ transformStmt(ParseState *pstate, Node *parseTree)
 			 */
 		case T_DeclareCursorStmt:
 			result = transformDeclareCursorStmt(pstate,
-											(DeclareCursorStmt *) parseTree);
+											(DeclareCursorStmt *) parseTree, hypothetical); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 			break;
 
 		case T_ExplainStmt:
@@ -276,13 +335,27 @@ analyze_requires_snapshot(Node *parseTree)
  * transformDeleteStmt -
  *	  transforms a Delete Statement
  */
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new boolean attribute called hypothetical.
+ */
 static Query *
-transformDeleteStmt(ParseState *pstate, DeleteStmt *stmt)
+transformDeleteStmt(ParseState *pstate, DeleteStmt *stmt, bool hypothetical)
 {
 	Query	   *qry = makeNode(Query);
 	Node	   *qual;
 
 	qry->commandType = CMD_DELETE;
+
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We are initializing the hypothetical attribute of Query structure.
+	 */
+	qry->hypothetical = hypothetical;
 
 	/* process the WITH clause independently of all else */
 	if (stmt->withClause)
@@ -333,8 +406,14 @@ transformDeleteStmt(ParseState *pstate, DeleteStmt *stmt)
  * transformInsertStmt -
  *	  transform an Insert Statement
  */
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new boolean attribute called hypothetical.
+ */
 static Query *
-transformInsertStmt(ParseState *pstate, InsertStmt *stmt)
+transformInsertStmt(ParseState *pstate, InsertStmt *stmt, bool hypothetical)
 {
 	Query	   *qry = makeNode(Query);
 	SelectStmt *selectStmt = (SelectStmt *) stmt->selectStmt;
@@ -355,6 +434,14 @@ transformInsertStmt(ParseState *pstate, InsertStmt *stmt)
 	Assert(pstate->p_ctenamespace == NIL);
 
 	qry->commandType = CMD_INSERT;
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We are initializing the hypothetical attribute of Query structure.
+	 */
+	qry->hypothetical = hypothetical;
+
 	pstate->p_is_insert = true;
 
 	/* process the WITH clause independently of all else */
@@ -456,7 +543,13 @@ transformInsertStmt(ParseState *pstate, InsertStmt *stmt)
 		sub_pstate->p_relnamespace = sub_relnamespace;
 		sub_pstate->p_varnamespace = sub_varnamespace;
 
-		selectQuery = transformStmt(sub_pstate, stmt->selectStmt);
+		/**
+		 * HYPOTHETICAL INDEX
+		 * SELF TUNING GROUP - PUC-RIO - 2010
+		 *
+		 * We are passing the hypothetical attribute value for query transformation
+		 */
+		selectQuery = transformStmt(sub_pstate, stmt->selectStmt, hypothetical);
 
 		free_parsestate(sub_pstate);
 
@@ -870,14 +963,28 @@ count_rowexpr_columns(ParseState *pstate, Node *expr)
  * Note: this covers only cases with no set operations and no VALUES lists;
  * see below for the other cases.
  */
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new boolean attribute called hypothetical.
+ */
 static Query *
-transformSelectStmt(ParseState *pstate, SelectStmt *stmt)
+transformSelectStmt(ParseState *pstate, SelectStmt *stmt, bool hypothetical)
 {
 	Query	   *qry = makeNode(Query);
 	Node	   *qual;
 	ListCell   *l;
 
 	qry->commandType = CMD_SELECT;
+
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We are initializing the hypothetical Query attribute.
+	 */
+	qry->hypothetical = hypothetical;
 
 	/* process the WITH clause independently of all else */
 	if (stmt->withClause)
@@ -1935,8 +2042,14 @@ applyColumnNames(List *dst, List *src)
  * transformUpdateStmt -
  *	  transforms an update statement
  */
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new boolean attribute called hypothetical.
+ */
 static Query *
-transformUpdateStmt(ParseState *pstate, UpdateStmt *stmt)
+transformUpdateStmt(ParseState *pstate, UpdateStmt *stmt, bool hypothetical)
 {
 	Query	   *qry = makeNode(Query);
 	RangeTblEntry *target_rte;
@@ -1946,6 +2059,14 @@ transformUpdateStmt(ParseState *pstate, UpdateStmt *stmt)
 
 	qry->commandType = CMD_UPDATE;
 	pstate->p_is_update = true;
+
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We are initializaing the hypothetical query attribute.
+	 */
+	qry->hypothetical = hypothetical;
 
 	/* process the WITH clause independently of all else */
 	if (stmt->withClause)
@@ -2152,8 +2273,14 @@ transformReturningList(ParseState *pstate, List *returningList)
  * a SELECT, then stick the original DeclareCursorStmt into the utilityStmt
  * field to carry the cursor name and options.
  */
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * We add a new boolean attribute called hypothetical.
+ */
 static Query *
-transformDeclareCursorStmt(ParseState *pstate, DeclareCursorStmt *stmt)
+transformDeclareCursorStmt(ParseState *pstate, DeclareCursorStmt *stmt, bool hypothetical)
 {
 	Query	   *result;
 
@@ -2166,7 +2293,21 @@ transformDeclareCursorStmt(ParseState *pstate, DeclareCursorStmt *stmt)
 				(errcode(ERRCODE_INVALID_CURSOR_DEFINITION),
 				 errmsg("cannot specify both SCROLL and NO SCROLL")));
 
-	result = transformStmt(pstate, stmt->query);
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 * We are initializing the hypothetical query attribute.
+	 */
+	result->hypothetical = hypothetical;
+
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We are passing the hypothetical attribute value for statement transformation.
+	 */
+	//result = transformStmt(pstate, stmt->query);
+	result = transformStmt(pstate, stmt->query, hypothetical);
 
 	/* Grammar should not have allowed anything but SELECT */
 	if (!IsA(result, Query) ||
@@ -2237,13 +2378,29 @@ transformExplainStmt(ParseState *pstate, ExplainStmt *stmt)
 {
 	Query	   *result;
 
+		/**
+		 * HYPOTHETICAL INDEX
+		 * SELF TUNING GROUP - PUC-RIO - 2010
+		 *
+		 * We are passing the explain statement hypothetical attribute for transformation
+		 * statement function
+		 */
+
 	/* transform contained query */
-	stmt->query = (Node *) transformStmt(pstate, stmt->query);
+	stmt->query = (Node *) transformStmt(pstate, stmt->query, stmt->hypothetical);
 
 	/* represent the command as a utility Query */
 	result = makeNode(Query);
 	result->commandType = CMD_UTILITY;
 	result->utilityStmt = (Node *) stmt;
+
+	/**
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * We are initializing the hypothetical query attribute.
+	 */
+	result->hypothetical = stmt->hypothetical;
 
 	return result;
 }

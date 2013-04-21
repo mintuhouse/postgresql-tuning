@@ -3,6 +3,7 @@
  * view.c
  *	  use rewrite rules to construct views
  *
+ * Portions Copyright (c) 2010, Pontifícia Universidade Católica do Rio de Janeiro (Puc-Rio)
  * Portions Copyright (c) 1996-2011, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
@@ -426,8 +427,19 @@ DefineView(ViewStmt *stmt, const char *queryString)
 	 * Since parse analysis scribbles on its input, copy the raw parse tree;
 	 * this ensures we don't corrupt a prepared statement, for example.
 	 */
-	viewParse = parse_analyze((Node *) copyObject(stmt->query),
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * The final parameter is related to the hypothetical index
+	 * and could be FALSE or TRUE because in case of a statement CREATE VIEW(CMD_UTILITY)
+	 * doen't make any difference, when we are making the query(Node)
+	 */
+	/*viewParse = parse_analyze((Node *) copyObject(stmt->query),
 							  queryString, NULL, 0);
+	*/
+	viewParse = parse_analyze((Node *) copyObject(stmt->query),
+							  queryString, NULL, 0, false);
 
 	/*
 	 * The grammar should ensure that the result is a single SELECT Query.

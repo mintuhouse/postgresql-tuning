@@ -44,12 +44,18 @@
  *		ExclusionProcs		Underlying function OIDs for ExclusionOps
  *		ExclusionStrats		Opclass strategy numbers for ExclusionOps
  *		Unique				is it a unique index?
+ *		Hypothetical		is it a hypothetical index? HYPOTHETICAL INDEX  * SELF TUNING GROUP - PUC-RIO - 2010
  *		ReadyForInserts		is it valid for inserts?
  *		Concurrent			are we doing a concurrent index build?
  *		BrokenHotChain		did we detect any broken HOT chains?
  *
  * ii_Concurrent and ii_BrokenHotChain are used only during index build;
  * they're conventionally set to false otherwise.
+ *
+ * HYPOTHETICAL INDEX  * SELF TUNING GROUP - PUC-RIO - 2010
+ * *
+ * ii_Hypothetical is used to check if whether or not we are working with an
+ * hypothetical index or a regular index 
  * ----------------
  */
 typedef struct IndexInfo
@@ -65,6 +71,7 @@ typedef struct IndexInfo
 	Oid		   *ii_ExclusionProcs;		/* array with one entry per column */
 	uint16	   *ii_ExclusionStrats;		/* array with one entry per column */
 	bool		ii_Unique;
+	bool        ii_Hypothetical;	/* flag for checking if an index is hypothetical or not */
 	bool		ii_ReadyForInserts;
 	bool		ii_Concurrent;
 	bool		ii_BrokenHotChain;

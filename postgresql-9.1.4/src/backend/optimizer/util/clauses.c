@@ -3919,7 +3919,17 @@ inline_function(Oid funcid, Oid result_type, Oid result_collid,
 	pstate->p_sourcetext = src;
 	sql_fn_parser_setup(pstate, pinfo);
 
-	querytree = transformStmt(pstate, linitial(raw_parsetree_list));
+	/**
+	* HYPOTHETICAL INDEX
+	* SELF TUNING GROUP - PUC-RIO - 2010
+	*
+	* Attribution of false value for hypothetical variable from transformStmt function.
+	* This parameter indicates that we dont use hypothetical indexes for parse_analyze when we
+	* are in inline functions.
+	*/
+	/*querytree = transformStmt(pstate, linitial(raw_parsetree_list));
+	*/
+	querytree = transformStmt(pstate, linitial(raw_parsetree_list), false);
 
 	free_parsestate(pstate);
 
@@ -4430,7 +4440,8 @@ inline_set_returning_function(PlannerInfo *root, RangeTblEntry *rte)
 	if (list_length(raw_parsetree_list) != 1)
 		goto fail;
 
-	querytree_list = pg_analyze_and_rewrite_params(linitial(raw_parsetree_list),
+
+ 	querytree_list = pg_analyze_and_rewrite_params(linitial(raw_parsetree_list),
 												   src,
 									   (ParserSetupHook) sql_fn_parser_setup,
 												   pinfo);

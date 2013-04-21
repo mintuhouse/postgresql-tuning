@@ -45,7 +45,12 @@ CatalogOpenIndexes(Relation heapRel)
 	resultRelInfo->ri_RelationDesc = heapRel;
 	resultRelInfo->ri_TrigDesc = NULL;	/* we don't fire triggers */
 
-	ExecOpenIndices(resultRelInfo);
+	//ExecOpenIndices(resultRelInfo);
+	ExecOpenIndices(resultRelInfo, false); /* HYPOTHETICAL INDEX
+											* SELF TUNING GROUP - PUC-RIO - 2010
+											*
+											* there aren't hypothetical indexes defined to the system catalog
+											*/
 
 	return resultRelInfo;
 }

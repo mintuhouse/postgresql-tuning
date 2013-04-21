@@ -262,6 +262,7 @@ create_toast_table(Relation rel, Oid toastOid, Oid toastIndexOid, Datum reloptio
 	indexInfo->ii_ExclusionProcs = NULL;
 	indexInfo->ii_ExclusionStrats = NULL;
 	indexInfo->ii_Unique = true;
+	indexInfo->ii_Hypothetical = false;	// HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010
 	indexInfo->ii_ReadyForInserts = true;
 	indexInfo->ii_Concurrent = false;
 	indexInfo->ii_BrokenHotChain = false;

@@ -22,6 +22,7 @@
 #include "access/sysattr.h"
 #include "access/transam.h"
 #include "catalog/catalog.h"
+#include "catalog/pg_type.h" //* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 - To calculate column size */
 #include "miscadmin.h"
 #include "nodes/makefuncs.h"
 #include "nodes/nodeFuncs.h"
@@ -74,9 +75,15 @@ static List *get_relation_constraints(PlannerInfo *root,
  * tree, and so the parent rel's physical size and index information isn't
  * important for it.
  */
+/**
+* HYPOTHETICAL INDEX
+* SELF TUNING GROUP - PUC-RIO - 2010
+*
+* We add a new attribute for hypothetical index landmark.
+*/
 void
 get_relation_info(PlannerInfo *root, Oid relationObjectId, bool inhparent,
-				  RelOptInfo *rel)
+				  RelOptInfo *rel, bool hypothetical)
 {
 	Index		varno = rel->relid;
 	Relation	relation;
@@ -174,39 +181,132 @@ get_relation_info(PlannerInfo *root, Oid relationObjectId, bool inhparent,
 				continue;
 			}
 
-			/*
-			 * If the index is valid, but cannot yet be used, ignore it; but
-			 * mark the plan we are generating as transient. See
-			 * src/backend/access/heap/README.HOT for discussion.
-			 */
-			if (index->indcheckxmin &&
-				!TransactionIdPrecedes(HeapTupleHeaderGetXmin(indexRelation->rd_indextuple->t_data),
-									   TransactionXmin))
-			{
-				root->glob->transientPlan = true;
-				index_close(indexRelation, NoLock);
-				continue;
-			}
+			/**
+			* HYPOTHETICAL INDEX
+			* SELF TUNING GROUP - PUC-RIO - 2010
+			*
+			* Attribution of false value for hypothetical variable from parse_analyze function.
+			* This parameter indicates that we dont use hypothetical indexes for parse_analyze when we
+			* are in inline functions.
+			*/
+			if ((hypothetical) || (!index->indishypothetical))
+            {
 
-			info = makeNode(IndexOptInfo);
+				/*
+				 * If the index is valid, but cannot yet be used, ignore it; but
+				 * mark the plan we are generating as transient. See
+				 * src/backend/access/heap/README.HOT for discussion.
+				 */
+				if (index->indcheckxmin &&
+					!TransactionIdPrecedes(HeapTupleHeaderGetXmin(indexRelation->rd_indextuple->t_data),
+										   TransactionXmin))
+				{
+					root->glob->transientPlan = true;
+					index_close(indexRelation, NoLock);
+					continue;
+				}
 
-			info->indexoid = index->indexrelid;
-			info->reltablespace =
-				RelationGetForm(indexRelation)->reltablespace;
-			info->rel = rel;
-			info->ncolumns = ncolumns = index->indnatts;
-			info->indexkeys = (int *) palloc(sizeof(int) * ncolumns);
-			info->indexcollations = (Oid *) palloc(sizeof(Oid) * ncolumns);
-			info->opfamily = (Oid *) palloc(sizeof(Oid) * ncolumns);
-			info->opcintype = (Oid *) palloc(sizeof(Oid) * ncolumns);
+				info = makeNode(IndexOptInfo);
 
-			for (i = 0; i < ncolumns; i++)
-			{
-				info->indexkeys[i] = index->indkey.values[i];
-				info->indexcollations[i] = indexRelation->rd_indcollation[i];
-				info->opfamily[i] = indexRelation->rd_opfamily[i];
-				info->opcintype[i] = indexRelation->rd_opcintype[i];
-			}
+				info->indexoid = index->indexrelid;
+				info->reltablespace =
+					RelationGetForm(indexRelation)->reltablespace;
+				info->rel = rel;
+				info->ncolumns = ncolumns = index->indnatts;
+				info->indexkeys = (int *) palloc(sizeof(int) * ncolumns);
+				info->indexcollations = (Oid *) palloc(sizeof(Oid) * ncolumns);
+				info->opfamily = (Oid *) palloc(sizeof(Oid) * ncolumns);
+				info->opcintype = (Oid *) palloc(sizeof(Oid) * ncolumns);
+
+				/**
+				* HYPOTHETICAL INDEX
+				* SELF TUNING GROUP - PUC-RIO - 2010
+				*
+				* Variable declaration to estimate hypothetical index size
+				*/
+				int32 tmp_typmod;
+				int totalcolumnsize, columnsize, keysize, entrysize, pagents, leaves, precision, scale;
+				totalcolumnsize = 0;
+
+				for (i = 0; i < ncolumns; i++)
+				{
+					info->indexkeys[i] = index->indkey.values[i];
+					info->indexcollations[i] = indexRelation->rd_indcollation[i];
+					info->opfamily[i] = indexRelation->rd_opfamily[i];
+					info->opcintype[i] = indexRelation->rd_opcintype[i];
+
+					/**
+					* HYPOTHETICAL INDEX
+					* SELF TUNING GROUP - PUC-RIO - 2010
+					*
+					* Get column size to estimate hypothetical index size in Bytes
+					*/
+					switch (indexRelation->rd_opcintype[i])
+					{
+							case BITOID:			// Type = bit
+								columnsize = ((indexRelation->rd_att->attrs[i]->atttypmod)/8);
+								break;
+							case BOOLOID:			// Type = boolean
+							case FLOAT4OID:			// Type = real
+								columnsize = 4;
+								break;
+							case INT2OID:			// Type = smallint
+								columnsize = 2;
+								break;
+							case INT4OID: 			// Type = integer = serial
+								columnsize = (indexRelation->rd_att->attrs[i]->attlen);
+								break;
+							case FLOAT8OID:			// Type = double precision
+							case INT8OID:			// Type = bigint = bigserial
+								columnsize = 8;
+								break;
+							case BPCHAROID:			// Type = bpchar = character [(n)]
+							case CHAROID:			// Type = character [(n)]
+							case VARCHAROID:		// Type = varchar = character varying [(n)]
+							case NAMEOID:			// Type = name
+							case TEXTOID: 			// Type = text = character varying [(n)]
+								columnsize = (indexRelation->rd_att->attrs[i]->atttypmod) - VARHDRSZ;
+								break;
+							case NUMERICOID:		// Type = numeric [(precision, scale)]
+								tmp_typmod = ((indexRelation->rd_att->attrs[i]->atttypmod) - VARHDRSZ);
+								precision = (tmp_typmod >> 16) & 0xffff;
+								scale = tmp_typmod & 0xffff;
+								if (precision <= 4)
+									columnsize = 2;
+								else
+									if (precision <= 9)
+										columnsize = 4;
+									else
+										if (precision <= 18)
+											columnsize = 8;
+										else
+											columnsize = 4 + 2 * ( (int) ( ( (precision - scale) + 3) / 4) + (int) ( (scale + 3) / 4) + 1);
+							    break;
+							case TIMEOID:			// Type = time = time without time zone
+							case ABSTIMEOID:		// Type = abstime = time without time zone
+							case DATEOID:			// Type = date = time without time zone
+							case RELTIMEOID:		// Type = relativetime = time without time zone
+								columnsize = 8;
+								break;
+							case INTERVALOID:		// Type = interval
+							case TINTERVALOID: 		// Type = time interval
+							case TIMETZOID:			// Type = time with time zone
+								columnsize = 12;
+								break;
+							case TIMESTAMPOID:		// Type = timestamp
+							case TIMESTAMPTZOID:	// Type = timestamp without time zone
+							    columnsize = 8;
+								break;
+							case VARBITOID:			// Type = bit varying
+								columnsize = ((indexRelation->rd_att->attrs[i]->atttypmod)/8);
+								break;
+							default:
+								columnsize = 4;
+					}
+
+					totalcolumnsize = totalcolumnsize + columnsize;
+
+				}
 
 			info->relam = indexRelation->rd_rel->relam;
 			info->amcostestimate = indexRelation->rd_am->amcostestimate;
@@ -317,7 +417,8 @@ get_relation_info(PlannerInfo *root, Oid relationObjectId, bool inhparent,
 			info->predOK = false;		/* set later in indxpath.c */
 			info->unique = index->indisunique;
 			info->immediate = index->indimmediate;
-			info->hypothetical = false;
+			//info->hypothetical = false; // HYPOTHETICAL INDEX - SELF TUNING GROUP - PUC-RIO - 2010
+
 
 			/*
 			 * Estimate the index size.  If it's not a partial index, we lock
@@ -326,22 +427,74 @@ get_relation_info(PlannerInfo *root, Oid relationObjectId, bool inhparent,
 			 * a table, except we can be sure that the index is not larger
 			 * than the table.
 			 */
-			if (info->indpred == NIL)
-			{
-				info->pages = RelationGetNumberOfBlocks(indexRelation);
-				info->tuples = rel->tuples;
-			}
-			else
-			{
-				estimate_rel_size(indexRelation, NULL,
-								  &info->pages, &info->tuples);
-				if (info->tuples > rel->tuples)
+				/**
+				* HYPOTHETICAL INDEX
+				* SELF TUNING GROUP - PUC-RIO - 2010
+				*
+				* For hypothetical indexes, correct pages and tuples information.
+				* Page information is refined in selfunc.c for btrees
+				* We first approximating based on IBM Informix Dynamic Server Performance Guide
+				*/
+				if (index->indishypothetical)
+				{
+					
+					//To estimate the number of index pages
+					//Add up the total widths of the indexed column or columns (totalColumnSize). Add 4 to colsize to obtain keysize.
+					keysize = (ncolumns * 4) + totalcolumnsize;
+
+					//Estimate the size of a typical index entry. We consider the worst case - For fragmented tables
+					entrysize = keysize + 9 + 4;
+
+					//Estimate the number of entries per index page
+					//pagefree = 8192 (page size) - 20 (page header size) = 8172
+					pagents = trunc(8172/entrysize);
+
+					//Estimate the number of leaf pages
+					leaves = ceil(rel->tuples/pagents);
+
+					//leaves = hypothetical pages size
+					info->pages = leaves;
+					//relation tuples = hypothetical tuples size
 					info->tuples = rel->tuples;
-			}
+
+				}
+				else
+				{
+					if (info->indpred == NIL)
+					{
+						info->pages = RelationGetNumberOfBlocks(indexRelation);
+						info->tuples = rel->tuples;
+					}
+					else
+					{
+						estimate_rel_size(indexRelation, NULL,
+										  &info->pages, &info->tuples);
+						if (info->tuples > rel->tuples)
+							info->tuples = rel->tuples;
+					}
+				} /* SELF TUNING GROUP */
+				
+				/**
+				 * HYPOTHETICAL INDEX
+				 * SELF TUNING GROUP - PUC-RIO - 2010
+				 *
+				 * Get information whether the index is or not hypothetical
+				 */
+				info->hypothetical = index->indishypothetical; /* SELF TUNING GROUP */
+
+				indexinfos = lcons(info, indexinfos); /* SELF TUNING GROUP */
+
+			} /* SELF TUNING GROUP */
 
 			index_close(indexRelation, NoLock);
 
-			indexinfos = lcons(info, indexinfos);
+			/**
+			 * HYPOTHETICAL INDEX
+			 * SELF TUNING GROUP - PUC-RIO - 2009
+			 *
+			 * We already get index information before.
+			 */
+			//indexinfos = lcons(info, indexinfos);
 		}
 
 		list_free(indexoidlist);

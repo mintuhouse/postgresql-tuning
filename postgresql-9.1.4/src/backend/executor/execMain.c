@@ -784,6 +784,7 @@ InitPlan(QueryDesc *queryDesc, int eflags)
 							  resultRelation,
 							  resultRelationIndex,
 							  estate->es_instrument);
+
 			resultRelInfo++;
 		}
 		estate->es_result_relations = resultRelInfos;

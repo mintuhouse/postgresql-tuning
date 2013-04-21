@@ -98,7 +98,13 @@ build_simple_rel(PlannerInfo *root, int relid, RelOptKind reloptkind)
 	{
 		case RTE_RELATION:
 			/* Table --- retrieve statistics from the system catalogs */
-			get_relation_info(root, rte->relid, rte->inh, rel);
+			/**
+			 * HYPOTHETICAL INDEX
+			 * SELF TUNING GROUP - PUC-RIO - 2009
+			 *
+			 * We already get index information before.
+			 */
+			get_relation_info(root, rte->relid, rte->inh, rel, root->parse->hypothetical); // SELF-TUNING MODULE: HYPOTHETICAL
 			break;
 		case RTE_SUBQUERY:
 		case RTE_FUNCTION:

@@ -46,8 +46,15 @@ typedef enum
 extern int	log_statement;
 
 extern List *pg_parse_query(const char *query_string);
+/**
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * we added an extra parameter to the function pg_analyze_and_rewrite
+ * to distinguish if we consider information about hypothetical or not
+ */
 extern List *pg_analyze_and_rewrite(Node *parsetree, const char *query_string,
-					   Oid *paramTypes, int numParams);
+					   Oid *paramTypes, int numParams, bool hypothetical);
 extern List *pg_analyze_and_rewrite_params(Node *parsetree,
 							  const char *query_string,
 							  ParserSetupHook parserSetup,

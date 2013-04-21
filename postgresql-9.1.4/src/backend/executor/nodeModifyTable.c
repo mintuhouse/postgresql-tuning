@@ -954,10 +954,15 @@ ExecInitModifyTable(ModifyTable *node, EState *estate, int eflags)
 		 * already, since we share the resultrel state with the original
 		 * query.
 		 */
+		/* HYPOTHETICAL INDEX
+		 * SELF TUNING GROUP - PUC-RIO - 2010
+		 *
+		 * we have to know whether or not we are going to open hypothetical indexes
+		 */
 		if (resultRelInfo->ri_RelationDesc->rd_rel->relhasindex &&
 			operation != CMD_DELETE &&
 			resultRelInfo->ri_IndexRelationDescs == NULL)
-			ExecOpenIndices(resultRelInfo);
+			ExecOpenIndices(resultRelInfo, estate->es_plannedstmt->hypothetical);
 
 		/* Now init the plan for this result rel */
 		estate->es_result_relation_info = resultRelInfo;

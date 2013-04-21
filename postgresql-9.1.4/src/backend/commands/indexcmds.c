@@ -104,6 +104,12 @@ static char *ChooseIndexNameAddition(List *colnames);
  * 'quiet': suppress the NOTICE chatter ordinarily provided for constraints.
  * 'concurrent': avoid blocking writers to the table while building.
  */
+/*
+ * HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * 'hypothetical': make the index enforce hypothetical.
+ */
 void
 DefineIndex(RangeVar *heapRelation,
 			char *indexRelationName,
@@ -123,7 +129,8 @@ DefineIndex(RangeVar *heapRelation,
 			bool check_rights,
 			bool skip_build,
 			bool quiet,
-			bool concurrent)
+			bool concurrent,
+			bool hypothetical) // PUC-RIO - SELF-TUNING MODULE: HYPOTHETICAL
 {
 	Oid		   *collationObjectId;
 	Oid		   *classObjectId;
@@ -170,12 +177,29 @@ DefineIndex(RangeVar *heapRelation,
 	/*
 	 * Open heap relation, acquire a suitable lock on it, remember its OID
 	 *
+ 	 * SELF-TUNING MODULE: if index is hypothetical, an access share lock
+ 	 * is enough. We don't need to block writers.
+	 *
 	 * Only SELECT ... FOR UPDATE/SHARE are allowed while doing a standard
 	 * index build; but for concurrent builds we allow INSERT/UPDATE/DELETE
 	 * (but not VACUUM).
 	 */
-	rel = heap_openrv(heapRelation,
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2009
+	 *
+	 * if index is hypothetical, an access share lock
+	 * is enough. We don't need to block writers.
+	 */
+	/*rel = heap_openrv(heapRelation,
 					  (concurrent ? ShareUpdateExclusiveLock : ShareLock));
+	*/
+ 	if (hypothetical) {
+ 		rel = heap_openrv(heapRelation, AccessShareLock);
+ 	} else {
+		rel = heap_openrv(heapRelation,
+						  (concurrent ? ShareUpdateExclusiveLock : ShareLock));
+	}
 
 	relationId = RelationGetRelid(rel);
 	namespaceId = RelationGetNamespace(rel);
@@ -355,6 +379,13 @@ DefineIndex(RangeVar *heapRelation,
 	indexInfo->ii_ExclusionProcs = NULL;
 	indexInfo->ii_ExclusionStrats = NULL;
 	indexInfo->ii_Unique = unique;
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * Assign the value of hypothetical to IndexInfo->Hypothetical,
+	 */
+ 	indexInfo->ii_Hypothetical = hypothetical;
 	/* In a concurrent build, mark it not-ready-for-inserts */
 	indexInfo->ii_ReadyForInserts = !concurrent;
 	indexInfo->ii_Concurrent = concurrent;
@@ -1549,7 +1580,19 @@ ReindexIndex(RangeVar *indexRelation)
 
 	ReleaseSysCache(tuple);
 
-	reindex_index(indOid, false);
+    /** HYPOTHETICAL INDEX
+     * SELF TUNING GROUP - PUC-RIO - 2010
+     *
+     * we re-index all the indexes that aren't hypothetical, and don't do anything
+     * for the hypothetical ones.
+     */
+      Relation indexDesc = index_open(indOid, AccessShareLock);
+
+      if(!indexDesc->rd_index->indishypothetical) {
+			heap_close(indexDesc, NoLock);
+			reindex_index(indOid, false);
+      }
+
 }
 
 /*

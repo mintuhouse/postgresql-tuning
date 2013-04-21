@@ -24,9 +24,14 @@ typedef void (*get_relation_info_hook_type) (PlannerInfo *root,
 														 RelOptInfo *rel);
 extern PGDLLIMPORT get_relation_info_hook_type get_relation_info_hook;
 
-
+/* HYPOTHETICAL INDEX
+ * SELF TUNING GROUP - PUC-RIO - 2010
+ *
+ * we have to know whether or not a relation we are obtaining will be
+ * using the hypothetical parameter
+ */
 extern void get_relation_info(PlannerInfo *root, Oid relationObjectId,
-				  bool inhparent, RelOptInfo *rel);
+				  bool inhparent, RelOptInfo *rel, bool hypothetical); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 
 extern void estimate_rel_size(Relation rel, int32 *attr_widths,
 				  BlockNumber *pages, double *tuples);

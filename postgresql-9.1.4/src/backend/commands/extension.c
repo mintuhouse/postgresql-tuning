@@ -713,7 +713,7 @@ execute_sql_string(const char *sql, const char *filename)
 		stmt_list = pg_analyze_and_rewrite(parsetree,
 										   sql,
 										   NULL,
-										   0);
+										   0, false); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 - SIMILAR TO POSTGRES.C */
 		stmt_list = pg_plan_queries(stmt_list, 0, NULL);
 
 		foreach(lc2, stmt_list)

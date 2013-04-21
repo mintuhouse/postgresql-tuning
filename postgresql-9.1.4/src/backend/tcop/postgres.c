@@ -572,7 +572,7 @@ pg_parse_query(const char *query_string)
  */
 List *
 pg_analyze_and_rewrite(Node *parsetree, const char *query_string,
-					   Oid *paramTypes, int numParams)
+					   Oid *paramTypes, int numParams, bool hypothetical) /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 {
 	Query	   *query;
 	List	   *querytree_list;
@@ -585,7 +585,14 @@ pg_analyze_and_rewrite(Node *parsetree, const char *query_string,
 	if (log_parser_stats)
 		ResetUsage();
 
-	query = parse_analyze(parsetree, query_string, paramTypes, numParams);
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * The value of the variable "hypothetical" is sent to the function parse_analyze
+	 */
+
+	query = parse_analyze(parsetree, query_string, paramTypes, numParams, hypothetical);
 
 	if (log_parser_stats)
 		ShowUsage("PARSE ANALYSIS STATISTICS");
@@ -629,7 +636,16 @@ pg_analyze_and_rewrite_params(Node *parsetree,
 	pstate->p_sourcetext = query_string;
 	(*parserSetup) (pstate, parserSetupArg);
 
-	query = transformStmt(pstate, parsetree);
+	/*
+	 * HYPOTHETICAL INDEX
+	 * SELF TUNING GROUP - PUC-RIO - 2010
+	 *
+	 * The value of the variable "hypothetical" 
+	 * (false - because all functions that call current function show that hypothetical is false)
+	 * is sent to the function transformStmt
+	 */
+	//query = transformStmt(pstate, parsetree);
+	query = transformStmt(pstate, parsetree, false);
 
 	free_parsestate(pstate);
 
@@ -944,7 +960,7 @@ exec_simple_query(const char *query_string)
 		oldcontext = MemoryContextSwitchTo(MessageContext);
 
 		querytree_list = pg_analyze_and_rewrite(parsetree, query_string,
-												NULL, 0);
+												NULL, 0, false); /* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 
 		plantree_list = pg_plan_queries(querytree_list, 0, NULL);
 

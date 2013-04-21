@@ -4,6 +4,7 @@
  *	  POSTGRES define and remove utility definitions.
  *
  *
+ * Portions Copyright (c) 2010, Pontifícia Universidade Católica do Rio de Janeiro (Puc-Rio)
  * Portions Copyright (c) 1996-2011, PostgreSQL Global Development Group
  * Portions Copyright (c) 1994, Regents of the University of California
  *
@@ -36,7 +37,8 @@ extern void DefineIndex(RangeVar *heapRelation,
 			bool check_rights,
 			bool skip_build,
 			bool quiet,
-			bool concurrent);
+			bool concurrent,
+			bool hypothetical);/* HYPOTHETICAL INDEX SELF TUNING GROUP - PUC-RIO - 2010 */
 extern void ReindexIndex(RangeVar *indexRelation);
 extern void ReindexTable(RangeVar *relation);
 extern void ReindexDatabase(const char *databaseName,
