@@ -1,0 +1,1 @@
+/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/postgres "-D" "/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/data"

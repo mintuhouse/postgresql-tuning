@@ -1,0 +1,845 @@
+make -C src install
+make[1]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src'
+make -C port install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[3]: Nothing to be done for `submake-errcodes'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../config/install-sh -c -m 644  libpgport.a '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libpgport.a'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C timezone install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/timezone'
+make -C ../../src/port all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Nothing to be done for `submake-errcodes'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share'
+./zic -d '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/timezone' -p 'US/Eastern' ./data/africa ./data/antarctica ./data/asia ./data/australasia ./data/europe ./data/northamerica ./data/southamerica ./data/pacificnew ./data/etcetera ./data/factory ./data/backward ./data/systemv ./data/solar87 ./data/solar88 ./data/solar89
+make -C tznames install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/timezone/tznames'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/timezonesets'
+/bin/sh ../../../config/install-sh -c -m 644 ./Africa.txt ./America.txt ./Antarctica.txt ./Asia.txt ./Atlantic.txt ./Australia.txt ./Etc.txt ./Europe.txt ./Indian.txt ./Pacific.txt '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/timezonesets'
+/bin/sh ../../../config/install-sh -c -m 644 ./Default ./Australia ./India '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/timezonesets'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/timezone/tznames'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/timezone'
+make -C backend install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make -C ../../src/port all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Nothing to be done for `submake-errcodes'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C catalog schemapg.h
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/catalog'
+make[3]: `schemapg.h' is up to date.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/catalog'
+make -C access all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access'
+make -C common all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/common'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/common'
+make -C gist all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/gist'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/gist'
+make -C hash all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/hash'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/hash'
+make -C heap all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/heap'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/heap'
+make -C index all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/index'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/index'
+make -C nbtree all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/nbtree'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/nbtree'
+make -C transam all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/transam'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/transam'
+make -C gin all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/gin'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access/gin'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/access'
+make -C bootstrap all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/bootstrap'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/bootstrap'
+make -C catalog all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/catalog'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/catalog'
+make -C parser all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/parser'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/parser'
+make -C commands all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/commands'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/commands'
+make -C executor all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/executor'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/executor'
+make -C foreign all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/foreign'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/foreign'
+make -C lib all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/lib'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/lib'
+make -C libpq all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/libpq'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/libpq'
+make -C main all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/main'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/main'
+make -C nodes all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/nodes'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/nodes'
+make -C optimizer all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer'
+make -C geqo all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/geqo'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/geqo'
+make -C path all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/path'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/path'
+make -C plan all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/plan'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/plan'
+make -C prep all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/prep'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/prep'
+make -C util all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/util'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer/util'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/optimizer'
+make -C port all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/port'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/port'
+make -C postmaster all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/postmaster'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/postmaster'
+make -C regex all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/regex'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/regex'
+make -C replication all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/replication'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/replication'
+make -C rewrite all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/rewrite'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/rewrite'
+make -C storage all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage'
+make -C buffer all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/buffer'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/buffer'
+make -C file all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/file'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/file'
+make -C freespace all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/freespace'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/freespace'
+make -C ipc all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/ipc'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/ipc'
+make -C large_object all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/large_object'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/large_object'
+make -C lmgr all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/lmgr'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/lmgr'
+make -C page all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/page'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/page'
+make -C smgr all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/smgr'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage/smgr'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/storage'
+make -C tcop all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/tcop'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/tcop'
+make -C tsearch all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/tsearch'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/tsearch'
+make -C utils all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils'
+make -C adt all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/adt'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/adt'
+make -C cache all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/cache'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/cache'
+make -C error all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/error'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/error'
+make -C fmgr all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/fmgr'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/fmgr'
+make -C hash all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/hash'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/hash'
+make -C init all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/init'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/init'
+make -C mb all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb'
+make -C misc all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/misc'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/misc'
+make -C mmgr all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mmgr'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mmgr'
+make -C resowner all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/resowner'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/resowner'
+make -C sort all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/sort'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/sort'
+make -C time all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/time'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/time'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils'
+make -C ../../src/timezone all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/timezone'
+make -C ../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/timezone'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin' '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share'
+/bin/sh ../../config/install-sh -c  postgres '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/postgres'
+ln -s postgres '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/postmaster'
+make -C catalog install-data
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/catalog'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share'
+/bin/sh ../../../config/install-sh -c -m 644 `for f in ./postgres.bki; do test -r $f && echo $f && break; done` '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/postgres.bki'
+/bin/sh ../../../config/install-sh -c -m 644 `for f in ./postgres.description; do test -r $f && echo $f && break; done` '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/postgres.description'
+/bin/sh ../../../config/install-sh -c -m 644 `for f in ./postgres.shdescription; do test -r $f && echo $f && break; done` '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/postgres.shdescription'
+/bin/sh ../../../config/install-sh -c -m 644 ./system_views.sql '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/system_views.sql'
+/bin/sh ../../../config/install-sh -c -m 644 ./information_schema.sql '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/information_schema.sql'
+/bin/sh ../../../config/install-sh -c -m 644 ./sql_features.txt '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/sql_features.txt'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/catalog'
+make -C tsearch install-data
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/tsearch'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share' '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/tsearch_data'
+/bin/sh ../../../config/install-sh -c -m 644 ./synonym_sample.syn ./thesaurus_sample.ths ./hunspell_sample.affix ./ispell_sample.affix ./ispell_sample.dict '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/tsearch_data/'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/tsearch'
+/bin/sh ../../config/install-sh -c -m 644 ./libpq/pg_hba.conf.sample '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/pg_hba.conf.sample'
+/bin/sh ../../config/install-sh -c -m 644 ./libpq/pg_ident.conf.sample '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/pg_ident.conf.sample'
+/bin/sh ../../config/install-sh -c -m 644 ./utils/misc/postgresql.conf.sample '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/postgresql.conf.sample'
+/bin/sh ../../config/install-sh -c -m 644 ./access/transam/recovery.conf.sample '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/recovery.conf.sample'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make -C backend/utils/mb/conversion_procs install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs'
+make -C ascii_and_mic installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/ascii_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/ascii_and_mic'
+make -C cyrillic_and_mic installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/cyrillic_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/cyrillic_and_mic'
+make -C euc_cn_and_mic installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_cn_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_cn_and_mic'
+make -C euc_jp_and_sjis installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_jp_and_sjis'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_jp_and_sjis'
+make -C euc_kr_and_mic installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_kr_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_kr_and_mic'
+make -C euc_tw_and_big5 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_tw_and_big5'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_tw_and_big5'
+make -C latin2_and_win1250 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/latin2_and_win1250'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/latin2_and_win1250'
+make -C latin_and_mic installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/latin_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/latin_and_mic'
+make -C utf8_and_ascii installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_ascii'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_ascii'
+make -C utf8_and_big5 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_big5'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_big5'
+make -C utf8_and_cyrillic installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_cyrillic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_cyrillic'
+make -C utf8_and_euc_cn installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_cn'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_cn'
+make -C utf8_and_euc_jp installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_jp'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_jp'
+make -C utf8_and_euc_kr installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_kr'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_kr'
+make -C utf8_and_euc_tw installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_tw'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_tw'
+make -C utf8_and_gb18030 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_gb18030'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_gb18030'
+make -C utf8_and_gbk installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_gbk'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_gbk'
+make -C utf8_and_iso8859 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_iso8859'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_iso8859'
+make -C utf8_and_iso8859_1 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_iso8859_1'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_iso8859_1'
+make -C utf8_and_johab installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_johab'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_johab'
+make -C utf8_and_sjis installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_sjis'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_sjis'
+make -C utf8_and_win installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_win'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_win'
+make -C utf8_and_uhc installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_uhc'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_uhc'
+make -C utf8_and_euc2004 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc2004'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc2004'
+make -C utf8_and_sjis2004 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_sjis2004'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_sjis2004'
+make -C euc2004_sjis2004 installdirs
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc2004_sjis2004'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc2004_sjis2004'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share' '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+make -C ascii_and_mic install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/ascii_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  ascii_and_mic.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/ascii_and_mic.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/ascii_and_mic'
+make -C cyrillic_and_mic install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/cyrillic_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  cyrillic_and_mic.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/cyrillic_and_mic.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/cyrillic_and_mic'
+make -C euc_cn_and_mic install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_cn_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  euc_cn_and_mic.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/euc_cn_and_mic.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_cn_and_mic'
+make -C euc_jp_and_sjis install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_jp_and_sjis'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  euc_jp_and_sjis.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/euc_jp_and_sjis.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_jp_and_sjis'
+make -C euc_kr_and_mic install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_kr_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  euc_kr_and_mic.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/euc_kr_and_mic.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_kr_and_mic'
+make -C euc_tw_and_big5 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_tw_and_big5'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  euc_tw_and_big5.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/euc_tw_and_big5.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc_tw_and_big5'
+make -C latin2_and_win1250 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/latin2_and_win1250'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  latin2_and_win1250.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/latin2_and_win1250.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/latin2_and_win1250'
+make -C latin_and_mic install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/latin_and_mic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  latin_and_mic.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/latin_and_mic.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/latin_and_mic'
+make -C utf8_and_ascii install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_ascii'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_ascii.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_ascii.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_ascii'
+make -C utf8_and_big5 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_big5'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_big5.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_big5.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_big5'
+make -C utf8_and_cyrillic install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_cyrillic'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_cyrillic.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_cyrillic.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_cyrillic'
+make -C utf8_and_euc_cn install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_cn'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_euc_cn.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_euc_cn.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_cn'
+make -C utf8_and_euc_jp install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_jp'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_euc_jp.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_euc_jp.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_jp'
+make -C utf8_and_euc_kr install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_kr'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_euc_kr.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_euc_kr.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_kr'
+make -C utf8_and_euc_tw install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_tw'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_euc_tw.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_euc_tw.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc_tw'
+make -C utf8_and_gb18030 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_gb18030'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_gb18030.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_gb18030.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_gb18030'
+make -C utf8_and_gbk install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_gbk'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_gbk.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_gbk.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_gbk'
+make -C utf8_and_iso8859 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_iso8859'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_iso8859.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_iso8859.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_iso8859'
+make -C utf8_and_iso8859_1 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_iso8859_1'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_iso8859_1.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_iso8859_1.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_iso8859_1'
+make -C utf8_and_johab install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_johab'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_johab.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_johab.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_johab'
+make -C utf8_and_sjis install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_sjis'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_sjis.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_sjis.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_sjis'
+make -C utf8_and_win install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_win'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_win.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_win.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_win'
+make -C utf8_and_uhc install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_uhc'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_uhc.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_uhc.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_uhc'
+make -C utf8_and_euc2004 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc2004'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_euc2004.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_euc2004.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_euc2004'
+make -C utf8_and_sjis2004 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_sjis2004'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  utf8_and_sjis2004.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/utf8_and_sjis2004.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/utf8_and_sjis2004'
+make -C euc2004_sjis2004 install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc2004_sjis2004'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../../../config/install-sh -c -m 755  euc2004_sjis2004.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/euc2004_sjis2004.so'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs/euc2004_sjis2004'
+/bin/sh ../../../../../config/install-sh -c -m 644 conversion_create.sql '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/utils/mb/conversion_procs'
+make -C backend/snowball install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/snowball'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share' '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/tsearch_data'
+/bin/sh ../../../config/install-sh -c -m 755  dict_snowball.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/dict_snowball.so'
+/bin/sh ../../../config/install-sh -c -m 644 snowball_create.sql '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/snowball'
+make -C include install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/include'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/libpq' '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/internal/libpq'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/access '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/bootstrap '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/catalog '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/commands '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/executor '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/foreign '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/lib '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/libpq '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/mb '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/nodes '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/optimizer '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/parser '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/postmaster '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/regex '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/replication '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/rewrite '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/storage '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/tcop '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/snowball '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/snowball/libstemmer '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/tsearch '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/tsearch/dicts '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/utils '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/port '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/port/win32 '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/port/win32_msvc '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/port/win32_msvc/sys '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/port/win32/arpa '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/port/win32/netinet '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/port/win32/sys '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/portability
+/bin/sh ../../config/install-sh -c -m 644 ./postgres_ext.h   '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include'
+/bin/sh ../../config/install-sh -c -m 644 ./libpq/libpq-fs.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/libpq'
+/bin/sh ../../config/install-sh -c -m 644 pg_config.h    '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include'
+/bin/sh ../../config/install-sh -c -m 644 pg_config_os.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include'
+/bin/sh ../../config/install-sh -c -m 644 ./pg_config_manual.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include'
+/bin/sh ../../config/install-sh -c -m 644 ./c.h            '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/internal'
+/bin/sh ../../config/install-sh -c -m 644 ./port.h         '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/internal'
+/bin/sh ../../config/install-sh -c -m 644 ./postgres_fe.h  '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/internal'
+/bin/sh ../../config/install-sh -c -m 644 ./libpq/pqcomm.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/internal/libpq'
+/bin/sh ../../config/install-sh -c -m 644 pg_config.h    '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'
+/bin/sh ../../config/install-sh -c -m 644 pg_config_os.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'
+/bin/sh ../../config/install-sh -c -m 644 utils/errcodes.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server/utils'
+/bin/sh ../../config/install-sh -c -m 644 utils/fmgroids.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server/utils'
+cp ./*.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/ || exit; \
+	chmod 644 '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/*.h  || exit; \
+	for dir in access bootstrap catalog commands executor foreign lib libpq mb nodes optimizer parser postmaster regex replication rewrite storage tcop snowball snowball/libstemmer tsearch tsearch/dicts utils port port/win32 port/win32_msvc port/win32_msvc/sys port/win32/arpa port/win32/netinet port/win32/sys portability; do \
+	  cp ./$dir/*.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/$dir/ || exit; \
+	  chmod 644 '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/server'/$dir/*.h  || exit; \
+	done
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/include'
+make -C interfaces install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces'
+make -C libpq install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include' '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/internal'
+/bin/sh ../../../config/install-sh -c -m 755  libpq.so.5.4 '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libpq.so.5.4'
+cd '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib' && \
+	rm -f libpq.so.5 && \
+	ln -s libpq.so.5.4 libpq.so.5
+cd '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib' && \
+	rm -f libpq.so && \
+	ln -s libpq.so.5.4 libpq.so
+/bin/sh ../../../config/install-sh -c -m 644  libpq.a '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libpq.a'
+/bin/sh ../../../config/install-sh -c -m 644 ./libpq-fe.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include'
+/bin/sh ../../../config/install-sh -c -m 644 ./libpq-events.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include'
+/bin/sh ../../../config/install-sh -c -m 644 ./libpq-int.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/internal'
+/bin/sh ../../../config/install-sh -c -m 644 ./pqexpbuffer.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/internal'
+/bin/sh ../../../config/install-sh -c -m 644 ./pg_service.conf.sample '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/pg_service.conf.sample'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make -C ecpg install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg'
+make -C include install
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/include'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include' '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/informix/esql'
+/bin/sh ../../../../config/install-sh -c -m 644 ./ecpgerrno.h ./ecpglib.h ./ecpgtype.h ./sqlca.h ./sql3types.h ./ecpg_informix.h ./pgtypes_error.h ./pgtypes_numeric.h ./pgtypes_timestamp.h ./pgtypes_date.h ./pgtypes_interval.h ./sqlda.h ./sqlda-compat.h ./sqlda-native.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/'
+/bin/sh ../../../../config/install-sh -c -m 644 ./datetime.h ./decimal.h ./sqltypes.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include/informix/esql/'
+/bin/sh ../../../../config/install-sh -c -m 644 ../../../../src/interfaces/ecpg/include/ecpg_config.h '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/include'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/include'
+make -C pgtypeslib install
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/pgtypeslib'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../config/install-sh -c -m 755  libpgtypes.so.3.2 '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libpgtypes.so.3.2'
+cd '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib' && \
+	rm -f libpgtypes.so.3 && \
+	ln -s libpgtypes.so.3.2 libpgtypes.so.3
+cd '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib' && \
+	rm -f libpgtypes.so && \
+	ln -s libpgtypes.so.3.2 libpgtypes.so
+/bin/sh ../../../../config/install-sh -c -m 644  libpgtypes.a '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libpgtypes.a'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/pgtypeslib'
+make -C ecpglib install
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/ecpglib'
+make -C ../../../../src/interfaces/libpq all
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make[5]: Nothing to be done for `all'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make -C ../../../../src/interfaces/ecpg/pgtypeslib all
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/pgtypeslib'
+make[5]: Nothing to be done for `all'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/pgtypeslib'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../config/install-sh -c -m 755  libecpg.so.6.3 '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libecpg.so.6.3'
+cd '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib' && \
+	rm -f libecpg.so.6 && \
+	ln -s libecpg.so.6.3 libecpg.so.6
+cd '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib' && \
+	rm -f libecpg.so && \
+	ln -s libecpg.so.6.3 libecpg.so
+/bin/sh ../../../../config/install-sh -c -m 644  libecpg.a '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libecpg.a'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/ecpglib'
+make -C compatlib install
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/compatlib'
+make -C ../../../../src/interfaces/ecpg/ecpglib all
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/ecpglib'
+make -C ../../../../src/interfaces/libpq all
+make[6]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make[6]: Nothing to be done for `all'.
+make[6]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make -C ../../../../src/interfaces/ecpg/pgtypeslib all
+make[6]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/pgtypeslib'
+make[6]: Nothing to be done for `all'.
+make[6]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/pgtypeslib'
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/ecpglib'
+make -C ../../../../src/interfaces/ecpg/pgtypeslib all
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/pgtypeslib'
+make[5]: Nothing to be done for `all'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/pgtypeslib'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../config/install-sh -c -m 755  libecpg_compat.so.3.3 '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libecpg_compat.so.3.3'
+cd '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib' && \
+	rm -f libecpg_compat.so.3 && \
+	ln -s libecpg_compat.so.3.3 libecpg_compat.so.3
+cd '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib' && \
+	rm -f libecpg_compat.so && \
+	ln -s libecpg_compat.so.3.3 libecpg_compat.so
+/bin/sh ../../../../config/install-sh -c -m 644  libecpg_compat.a '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libecpg_compat.a'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/compatlib'
+make -C preproc install
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/preproc'
+make -C ../../../../src/port all
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[6]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[6]: Nothing to be done for `submake-errcodes'.
+make[6]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../../config/install-sh -c  ecpg '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg/preproc'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/ecpg'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces'
+make -C backend/replication/libpqwalreceiver install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/replication/libpqwalreceiver'
+make -C ../../../../src/interfaces/libpq all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../config/install-sh -c -m 755  libpqwalreceiver.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/libpqwalreceiver.so'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend/replication/libpqwalreceiver'
+make -C bin install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin'
+make -C initdb install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/initdb'
+make -C ../../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c  initdb '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/initdb'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/initdb'
+make -C pg_ctl install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_ctl'
+make -C ../../../src/interfaces/libpq all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make -C ../../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c  pg_ctl '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/pg_ctl'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_ctl'
+make -C pg_dump install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_dump'
+make -C ../../../src/interfaces/libpq all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make -C ../../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c  pg_dump '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/pg_dump
+/bin/sh ../../../config/install-sh -c  pg_restore '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/pg_restore
+/bin/sh ../../../config/install-sh -c  pg_dumpall '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/pg_dumpall
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_dump'
+make -C psql install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/psql'
+make -C ../../../src/interfaces/libpq all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make -C ../../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c  psql '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/psql'
+/bin/sh ../../../config/install-sh -c -m 644 ./psqlrc.sample '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/psqlrc.sample'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/psql'
+make -C scripts install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/scripts'
+make -C ../../../src/interfaces/libpq all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c  createdb   '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/createdb
+/bin/sh ../../../config/install-sh -c  dropdb     '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/dropdb
+/bin/sh ../../../config/install-sh -c  createlang '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/createlang
+/bin/sh ../../../config/install-sh -c  droplang   '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/droplang
+/bin/sh ../../../config/install-sh -c  createuser '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/createuser
+/bin/sh ../../../config/install-sh -c  dropuser   '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/dropuser
+/bin/sh ../../../config/install-sh -c  clusterdb  '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/clusterdb
+/bin/sh ../../../config/install-sh -c  vacuumdb   '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/vacuumdb
+/bin/sh ../../../config/install-sh -c  reindexdb  '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'/reindexdb
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/scripts'
+make -C pg_config install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_config'
+make -C ../../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c -m 755 pg_config '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/pg_config'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_config'
+make -C pg_controldata install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_controldata'
+make -C ../../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c  pg_controldata '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/pg_controldata'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_controldata'
+make -C pg_resetxlog install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_resetxlog'
+make -C ../../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c  pg_resetxlog '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/pg_resetxlog'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_resetxlog'
+make -C pg_basebackup install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_basebackup'
+make -C ../../../src/interfaces/libpq all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/interfaces/libpq'
+make -C ../../../src/port all
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[5]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[5]: Nothing to be done for `submake-errcodes'.
+make[5]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin'
+/bin/sh ../../../config/install-sh -c  pg_basebackup '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/bin/pg_basebackup'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin/pg_basebackup'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/bin'
+make -C pl install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/pl'
+make -C plpgsql install
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/pl/plpgsql'
+make -C src install
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/pl/plpgsql/src'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib'
+/bin/sh ../../../../config/install-sh -c -m 755  plpgsql.so '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/plpgsql.so'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/extension'
+/bin/sh ../../../../config/install-sh -c -m 644 ./plpgsql.control ./plpgsql--1.0.sql ./plpgsql--unpackaged--1.0.sql '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/share/extension/'
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/pl/plpgsql/src'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/pl/plpgsql'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/pl'
+make -C makefiles install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/makefiles'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src/makefiles'
+/bin/sh ../../config/install-sh -c -m 644 ./pgxs.mk '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src/makefiles/'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/makefiles'
+make -C test/regress install
+make[2]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/test/regress'
+make -C ../../../src/port all
+make[3]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+make -C ../backend submake-errcodes
+make[4]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[4]: Nothing to be done for `submake-errcodes'.
+make[4]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/backend'
+make[3]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/port'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src/test/regress'
+/bin/sh ../../../config/install-sh -c  pg_regress '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src/test/regress/pg_regress'
+make[2]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src/test/regress'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src'
+/bin/sh ../config/install-sh -c -m 644 Makefile.global '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src/Makefile.global'
+/bin/sh ../config/install-sh -c -m 644 Makefile.port '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src/Makefile.port'
+/bin/sh ../config/install-sh -c -m 644 ./Makefile.shlib '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src/Makefile.shlib'
+/bin/sh ../config/install-sh -c -m 644 ./nls-global.mk '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/src/nls-global.mk'
+make[1]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/src'
+make -C config install
+make[1]: Entering directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/config'
+/bin/mkdir -p '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/config'
+/bin/sh ../config/install-sh -c -m 755 ./install-sh '/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/install/lib/pgxs/config/install-sh'
+make[1]: Leaving directory `/home/mintuhouse/projects/postgresql-tuning/postgresql-9.1.4/config'
+PostgreSQL installation complete.
