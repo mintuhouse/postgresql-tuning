@@ -1,0 +1,2 @@
+Support for creating indexes of different types - Hash, Gist etc - other than BTree
+Handle clustered indexes

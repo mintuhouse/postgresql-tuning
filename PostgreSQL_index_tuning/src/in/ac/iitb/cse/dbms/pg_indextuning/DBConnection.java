@@ -34,7 +34,7 @@ public class DBConnection {
 		return DB_NAME;
 	}
 	
-	public void createConnection(){
+	public void createConnection(String DB_NAME){
 		if (dbConnection == null){
 			try { 
 				dbConnection = DriverManager.getConnection("jdbc:postgresql://"+DB_HOST+":"+DB_PORT+"/"+DB_NAME+"", DB_USER, DB_PASS);
@@ -90,11 +90,11 @@ public class DBConnection {
 
 	public static void main(String[] args) throws SQLException{
 		DBConnection DBCon =  new DBConnection();
-		DBCon.createConnection();
+		DBCon.createConnection(DB_NAME);
 		//ResultSet rs = DBCon.execQuery("SELECT * FROM orders WHERE customerid < 100");
 		//DBCon.displayResult(rs);
 		//DBCon.execQuery(CREATE HYPOTHETICAL INDEX ON );
-		DBCon.execQuery("CREATE DATABASE it_dellstore2 WITH TEMPLATE dellstore2");
+		//DBCon.execQuery("CREATE DATABASE it_dellstore2 WITH TEMPLATE dellstore2");
 		DBCon.closeConnection();
 	}
 
