@@ -1,2 +1,31 @@
 Support for creating indexes of different types - Hash, Gist etc - other than BTree
 Handle clustered indexes
+
+
+Merge both classes
+On starting main
+    calls a function -init
+    Creates two DB connections one to DB and other ADB - globals
+Init
+    Reads the config file
+    Creates ADB_NAME if doesn't exist - prompt in UI - 
+        keep separate functions to 
+            check existence and 
+            actually creating new database
+create connection
+close connection
+test connection
+
+Create a helper class with all functions
+    Create hyp index
+    get whatif cost
+    delete hyp index
+    Display data
+    get resultSet
+    execStmt - doesn't return anything
+    display resultSet
+    
+Index class
+
+Convert all System.out ERROR messages to throw exceptions
+            
