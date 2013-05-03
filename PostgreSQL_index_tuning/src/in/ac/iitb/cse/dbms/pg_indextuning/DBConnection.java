@@ -45,6 +45,18 @@ public class DBConnection {
 		}
 	}
 	
+	public DbTime execExplain(String query){
+		
+		try {
+			stmt.execute("explain plan for "+ query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		
+		return null;
+	}	
 	public void testConnection(){
 		if (dbConnection != null) {
 			System.out.println("You made it, take control your database now!");

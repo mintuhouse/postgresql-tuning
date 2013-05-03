@@ -27,6 +27,18 @@ public class Index {
 		materialized	= a_materialized;
 	}
 	
+	public boolean equals(Index x){
+		if (x.column_names.equals(this.column_names) &&
+				x.table_name.equals(this.table_name) &&
+				x.dbname.equals(this.dbname)){
+			return true;			
+		} else {
+			return false;			
+		}
+	}
+	
+	
+	
 	public void drop(DBConnection con) throws Exception{
 		if(!materialized){
 			System.out.println("ERROR: Trying to drop a non-materialized index "+ name);
@@ -52,7 +64,7 @@ public class Index {
 			if(hypothetical){
 				con.execStmt("CREATE HYPOTHETICAL INDEX "+name+" ON "+table_name+" ("+getColumnNames()+")");
 			}else{
-				con.execStmt("DROP INDEX "+ name);
+				con.execStmt("CREATE INDEX "+name+" ON "+table_name+" ("+getColumnNames()+")");				
 			}
 		}else{
 			System.out.println("ERROR: Dropping "+name+" : DB name didn't match connection");
