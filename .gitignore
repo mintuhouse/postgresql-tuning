@@ -1,5 +1,6 @@
 install/
 postgresql-9.1.4/configure
 *.class
-PostgreSQL_index_tuning/.classpath
-PostgreSQL_index_tuning/.settings/org.eclipse.jdt.core.prefs
+.classpath
+PostgreSQL_index_tuning/.settings/
+PostgreSQL_index_tuning/bin/

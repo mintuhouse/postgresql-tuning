@@ -28,4 +28,10 @@ Create a helper class with all functions
 Index class
 
 Convert all System.out ERROR messages to throw exceptions
-            
+
+Check pgbench
+
+postgresql.conf
+Programatically turn on autovacuum on
+
+
