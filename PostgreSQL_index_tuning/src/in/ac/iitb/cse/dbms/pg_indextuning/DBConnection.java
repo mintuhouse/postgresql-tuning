@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class DBConnection {
 	
@@ -45,12 +46,16 @@ public class DBConnection {
 		}
 	}
 	
-	public DbTime execExplain(String query){
-		
+	public DBTime execExplain(String query){
+		//TODO: Do it only for select, update, insert queries
 		try {
-			stmt.execute("explain plan for "+ query);
+			ResultSet rs = stmt.executeQuery("explain "+ query);
+			while(rs.next()){
+				System.out.println(rs.getString(1));
+				//TODO:Get number
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Error calculating explain query time");
 			e.printStackTrace();
 		}
 				
@@ -63,6 +68,10 @@ public class DBConnection {
 		} else {
 			System.out.println("Failed to make connection!");
 		}
+	}
+	
+	public void vacuumAnalyze() throws SQLException {
+		stmt.execute("VACUUM ANALYZE");
 	}
 	
 
@@ -104,9 +113,9 @@ public class DBConnection {
         }
 	}
 	
-	public void createHypIndex(String table_name, String column_names, String index_name ){
-		//TODO: Create a global map of all indexes created
-		//TODO: Merge both the classes 
+	public DBTime whatIf(String query, ArrayList<Index> configuration){
+		DBTime t = null;
+		return t;
 	}
 
 	public static void main(String[] args) throws SQLException{

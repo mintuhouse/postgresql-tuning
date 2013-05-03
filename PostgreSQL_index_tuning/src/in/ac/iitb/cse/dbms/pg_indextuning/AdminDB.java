@@ -38,11 +38,18 @@ public class AdminDB {
 			dropIdxAndCreateHypIdx();
 		}
 		createDBConnections();
+		DBCon.execExplain("SELECT * FROM orders");
 	}
 	
-	private void createDBConnections(){
-		if(DBCon == null) DBCon = new DBConnection(DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME);
-		if(ADBCon == null) ADBCon = new DBConnection(ADB_HOST, ADB_PORT, ADB_USER, ADB_PASS, ADB_NAME);		
+	private void createDBConnections() throws SQLException{
+		if(DBCon == null){
+			DBCon = new DBConnection(DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME);
+			DBCon.vacuumAnalyze();
+		}
+		if(ADBCon == null){
+			ADBCon = new DBConnection(ADB_HOST, ADB_PORT, ADB_USER, ADB_PASS, ADB_NAME);		
+			ADBCon.vacuumAnalyze();
+		}
 	}
 	
 	private boolean doesDBExist(String ADB_NAME) throws Exception{

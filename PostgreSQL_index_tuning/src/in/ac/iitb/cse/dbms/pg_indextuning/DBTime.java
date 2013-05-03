@@ -1,9 +1,9 @@
 package in.ac.iitb.cse.dbms.pg_indextuning;
 
-public class DbTime {
+public class DBTime {
 	private long time;
 	
-	public DbTime(long x){
+	public DBTime(long x){
 		time = x;
 	}
 	
