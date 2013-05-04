@@ -1,5 +1,8 @@
 package in.ac.iitb.cse.dbms.pg_indextuning;
 
+import gudusoft.gsqlparser.EDbVendor;
+import gudusoft.gsqlparser.TGSqlParser;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -166,6 +169,20 @@ public class IndexTuner {
 	}
 			
 	private ArrayList<Index> extractIndexes(String query){
+		TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmssql);
+        //sqlparser.sqltext = "Select firstname, t.lastname, age from Clients t join Road r ON t.id = r.nid where t.State = \"CA\" and  r.City = \"Hollywood\"";
+        sqlparser.sqltext = query;
+        int i = sqlparser.parse( );
+        if (i == 0){
+            IndexExtraction w = new IndexExtraction(sqlparser.sqlstatements.get( 0 ).getWhereClause( ).getCondition( ), "it_dellstore2");
+            /*for(Index in: w.getIndexes()){
+            	System.out.println(in.getDBName()+" : "+in.getColumnNames()+" : "+in.getTableName());
+            }*/
+            return w.getIndexes();
+        }
+        else{
+            System.out.println(sqlparser.getErrormessage( ));
+        }
 		return null;
 	}
 					
@@ -292,13 +309,7 @@ public class IndexTuner {
 		}
 		sugg = newList;
 	}
-	
-	public void updateCandidates(String query){
 		
-
-		
-	}
-	
 	/*
 	 * This is the main function to called
 	 * this returns back the set of indices to be recommended
@@ -308,5 +319,21 @@ public class IndexTuner {
 		analyze(query);
 		feedback(fPlus, fMinus);
 		return sugg;		
+	}
+	
+	
+	public static void main(String[] args){
+		TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmssql);
+        sqlparser.sqltext = "Select firstname, t.lastname, age from Clients t join Road r ON t.id = r.nid where t.State = \"CA\" and  r.City = \"Hollywood\"";
+        int i = sqlparser.parse( );
+        if (i == 0)
+        {
+            IndexExtraction w = new IndexExtraction(sqlparser.sqlstatements.get( 0 ).getWhereClause( ).getCondition( ), "it_dellstore2");
+            for(Index in: w.getIndexes()){
+            	System.out.println(in.getDBName()+" : "+in.getColumnNames()+" : "+in.getTableName());
+            }
+        }
+        else
+            System.out.println(sqlparser.getErrormessage( ));
 	}
 }
