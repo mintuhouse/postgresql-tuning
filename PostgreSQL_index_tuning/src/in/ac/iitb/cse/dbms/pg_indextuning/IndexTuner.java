@@ -1,6 +1,7 @@
 package in.ac.iitb.cse.dbms.pg_indextuning;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class IndexTuner {
 	DBConnection ADBCon			= null;
@@ -67,12 +68,65 @@ public class IndexTuner {
 		return null;			
 	}
 	
-	public void analyze(String query){		
-
+	public void analyze(String query){
+		ArrayList<DBTime> execTime = new ArrayList<DBTime>(curCand.size());
+		for (ArrayList<Index> conf : curCand){
+			try {
+				execTime.add(whatIf(query, conf));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		ArrayList<DBTime> wdash = new ArrayList<DBTime>(w);
+		ArrayList<Boolean> pres = new ArrayList<Boolean>(curCand.size());
+		
+		// TODO: change below as two iterators for 2 arraylist
+		for (int i = 0; i < w.size(); i++){
+			w.get(i).set(w.get(i).get() +  execTime.get(i).get());
+			pres.add(false);
+		}
+		
+		for (int i = 0; i < w.size(); i++){
+			float mini = w.get(i).get();
+			for (int j = 0; j < w.size(); j++){
+				mini = Math.min(mini, w.get(j).get() + 
+						changeConfig(curCand.get(i), curCand.get(j)).get());
+			}
+			if (mini == w.get(i).get()){
+				pres.add(true);
+			}
+			wdash.get(i).set(mini);
+		}
+		
+		for (int i = 0; i < w.size(); i++){
+			DBTime changeTime = changeConfig(curCand.get(i), sugg);
+			execTime.get(i).set(wdash.get(i).get() + changeTime.get());
+			w.get(i).set(wdash.get(i).get());
+		}
+		
+		float mini = execTime.get(0).get();
+		for (int i = 1; i < w.size(); i++){
+			mini = Math.min(mini, execTime.get(i).get());			
+		}
+		
+		for (int i = 1; i < w.size(); i++){
+			if (execTime.get(i).get() == mini && pres.get(i)){
+				sugg = curCand.get(i);
+			}
+		}
 	}
 	
 	public void feedback(ArrayList<Index> fPlus, ArrayList<Index> fMinus){
-
+		ArrayList<Index> newList = new ArrayList<Index>(fPlus); 
+		TreeSet<Index> fMinusSet = new TreeSet<Index> (fMinus);
+		for (Index ix : sugg){
+			if (!fPlus.contains(ix) && !fMinusSet.contains(ix)){
+				newList.add(ix);
+			}
+		}		
+		sugg = newList;
 	}
 	
 	public void updateCandidates(String query){

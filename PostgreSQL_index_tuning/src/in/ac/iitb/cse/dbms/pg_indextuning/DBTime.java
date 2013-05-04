@@ -7,6 +7,7 @@ public class DBTime {
 		time = x;
 	}
 	
+	
 	public Float get(){
 		return time;
 	}
@@ -14,5 +15,6 @@ public class DBTime {
 	public void set(Float x){
 		time = x;
 	}
+	
 
 }
