@@ -3,6 +3,7 @@ package in.ac.iitb.cse.dbms.pg_indextuning;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 public class Partitioner {
 	
@@ -136,13 +137,23 @@ public class Partitioner {
 			}
 		}
 		// calculate the edges
-		
 		int[] par = new int[cand.size()];
+		TreeSet<Integer> st = new TreeSet<Integer>();
 		for (int i = 0; i < cand.size(); i++){
-			
+			st.add(parent(i, map));
+			par[i] = parent(i, map);
 		}
-		
-		return null;		
+		ArrayList<ArrayList<Index> > res = new ArrayList<ArrayList<Index> >();
+		for (int ip : st){
+			ArrayList<Index> tmp = new ArrayList<Index>();
+			for (int i = 0; i < cand.size(); i++){
+				if (par[i] == ip){
+					tmp.add(cand.get(i));
+				}
+			}
+			res.add(tmp);
+		}				
+		return res;		
 	}
 	
 
