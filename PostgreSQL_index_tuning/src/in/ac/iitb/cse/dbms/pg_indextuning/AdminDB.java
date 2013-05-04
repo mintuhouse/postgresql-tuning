@@ -104,26 +104,6 @@ public class AdminDB {
 		System.out.println("Completed Hypothetical Index Creation");
 	}
 	
-	//TODO: Move it to IndexTuner later
-	public DBTime whatIf(String query, ArrayList<Index> configuration) throws Exception{
-		//TODO: Compare and check the existence of queries	
-		// Improve the efficiency by comparing the indexes before deleting
-		// Or even better don't make the database query to fetch the list of indexes 
-		// 		in DB each time but maintain the list in connection, if DB_NAME is set
-		for(Index i: ADBCon.curHypConfig){
-			i.drop(ADBCon);
-		}
-		ADBCon.curHypConfig.clear();
-		for(Index i: configuration){
-			if(i.isHypothetical()){
-				i.create(ADBCon);
-				ADBCon.curHypConfig.add(i); //TODO: Check whether materialization status is changed
-			}else{
-				System.out.println("ERROR: Trying to create materialized index from whatIf");
-			}
-		}
-		return ADBCon.execExplain(query);
-	}
 		
 	public static void main(String[] args) throws Exception{
 		AdminDB adb = new AdminDB();
