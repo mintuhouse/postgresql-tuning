@@ -2,6 +2,7 @@ package in.ac.iitb.cse.dbms.pg_indextuning;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AdminDB {
 	
@@ -21,6 +22,7 @@ public class AdminDB {
 	private DBConnection DBCon = null;
 	private DBConnection ADBCon = null;
 	
+	
 	AdminDB() throws Exception{
 		readConfig("config.cfg");
 		initAdmin();
@@ -31,14 +33,16 @@ public class AdminDB {
 	}
 	
 	public void initAdmin() throws Exception{
-		deleteStatOnlyDB();
+		//deleteStatOnlyDB();
 		if(!doesDBExist(ADB_NAME)){
 			createStatOnlyDB(ADB_NAME, DB_NAME);
 			createDBConnections();
 			dropIdxAndCreateHypIdx();
 		}
 		createDBConnections();
-		DBCon.execExplain("SELECT * FROM orders");
+		DBCon.execExplain("SELECT * FROM products p JOIN inventory i ON i.prod_id = p.prod_id");
+		DBCon.execExplain("INSERT INTO orders (customerid, netamount, tax , totalamount ) VALUES (1, 100, 121, 220)");
+		DBCon.execExplain("UPDATE orders SET tax = 10 WHERE customerid=12");
 	}
 	
 	private void createDBConnections() throws SQLException{
@@ -79,42 +83,9 @@ public class AdminDB {
 		con.closeConnection();
 		System.out.println("Dropped the database "+ ADB_NAME); //DEBUG
 	}
-	
-	private ResultSet getIndexColumns() throws Exception {
-		String sql = 	"select"+
-						"	i.oid as index_oid,"+
-						"    t.relname as table_name,"+
-						"    i.relname as index_name,"+
-						"    array_to_string(array_agg(a.attname), ', ') as column_names, "+
-					    "	 ix.indishypothetical "+
-						"from"+
-						"    pg_class t,"+
-						"    pg_class i,"+
-						"    pg_index ix,"+
-						"    pg_attribute a "+
-						"where"+
-						"    t.oid = ix.indrelid"+
-						"    and i.oid = ix.indexrelid"+
-						"    and a.attrelid = t.oid"+
-						"    and a.attnum = ANY(ix.indkey)"+
-						"    and t.relkind = 'r'"+
-						"    and t.relname IN (select table_name from information_schema.tables WHERE table_schema = 'public') "+
-						"    and NOT ix.indisunique "+
-						"group by"+
-						"    t.relname,"+
-						"    i.relname,"+
-						"    i.oid," +
-						"	 ix.indishypothetical "+
-						"order by"+
-						"    t.relname,"+
-						"    i.relname";
-		ResultSet rs = DBCon.getResultSet(sql);
-		//DBCon.displayResult(rs);
-		return rs;
-	}
-	
+		
 	private void dropIdxAndCreateHypIdx() throws Exception{
-		ResultSet rs = getIndexColumns();
+		ResultSet rs = ADBCon.getIndexColumns();
 		while(rs.next())
         {
 			int pgc_idx_oid 	= rs.getInt("index_oid");
@@ -131,6 +102,27 @@ public class AdminDB {
 			}
 		}
 		System.out.println("Completed Hypothetical Index Creation");
+	}
+	
+	//TODO: Move it to IndexTuner later
+	public DBTime whatIf(String query, ArrayList<Index> configuration) throws Exception{
+		//TODO: Compare and check the existence of queries	
+		// Improve the efficiency by comparing the indexes before deleting
+		// Or even better don't make the database query to fetch the list of indexes 
+		// 		in DB each time but maintain the list in connection, if DB_NAME is set
+		for(Index i: ADBCon.curHypConfig){
+			i.drop(ADBCon);
+		}
+		ADBCon.curHypConfig.clear();
+		for(Index i: configuration){
+			if(i.isHypothetical()){
+				i.create(ADBCon);
+				ADBCon.curHypConfig.add(i); //TODO: Check whether materialization status is changed
+			}else{
+				System.out.println("ERROR: Trying to create materialized index from whatIf");
+			}
+		}
+		return ADBCon.execExplain(query);
 	}
 		
 	public static void main(String[] args) throws Exception{

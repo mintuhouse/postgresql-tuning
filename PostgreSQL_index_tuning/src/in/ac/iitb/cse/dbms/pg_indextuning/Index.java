@@ -37,6 +37,14 @@ public class Index {
 		}
 	}
 	
+	public boolean equals(String a_dbname, String a_table_name, String a_column_names){
+		if(dbname.equals(a_dbname) &&
+				table_name.equals(a_table_name) && 
+				column_names.equals(new ArrayList<String>(Arrays.asList(a_column_names.split("\\s*,\\s*"))))){
+			return true;
+		}
+		return false;
+	}
 	
 	
 	public void drop(DBConnection con) throws Exception{
@@ -50,6 +58,7 @@ public class Index {
 			}else{
 				con.execStmt("DROP INDEX "+ name);
 			}
+			this.materialized = false;
 		}else{
 			System.out.println("ERROR: Dropping "+name+" : DB name didn't match connection");
 		}
@@ -66,6 +75,7 @@ public class Index {
 			}else{
 				con.execStmt("CREATE INDEX "+name+" ON "+table_name+" ("+getColumnNames()+")");				
 			}
+			this.materialized = true;
 		}else{
 			System.out.println("ERROR: Dropping "+name+" : DB name didn't match connection");
 		}
@@ -73,6 +83,10 @@ public class Index {
 	
 	private String getColumnNames(){
 		return column_names.toString().replace("[", "").replace("]", "");
+	}
+	
+	public boolean isHypothetical(){
+		return hypothetical;
 	}
 	
 }

@@ -1,17 +1,17 @@
 package in.ac.iitb.cse.dbms.pg_indextuning;
 
 public class DBTime {
-	private long time;
+	private Float time;
 	
-	public DBTime(long x){
+	public DBTime(Float x){
 		time = x;
 	}
 	
-	public long get(){
+	public Float get(){
 		return time;
 	}
 	
-	public void set(long x){
+	public void set(Float x){
 		time = x;
 	}
 
