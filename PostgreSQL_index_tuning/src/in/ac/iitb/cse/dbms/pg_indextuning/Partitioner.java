@@ -79,6 +79,7 @@ public class Partitioner {
 			float num1 = denom - whatIf(query, cand).get();
 			cand.remove(b); cand.add(a);
 			float num2 = denom - whatIf(query,cand).get();
+			cand.add(b);
 			res += (Math.abs(num1+num2 / denom) / Math.sqrt(i + 1.0));			
 		}
 		
