@@ -52,6 +52,10 @@ public class IndexTuner {
 	 * can be merged into init
 	 */
 	
+	private ArrayList<Index> extractIndexes(String query){
+		return null;
+	}
+	
 	private void greedymk1(){
 		
 		
@@ -60,10 +64,11 @@ public class IndexTuner {
 	/*
 	 * Called when a new query is added
 	 */
-	private void greedymk2(){
-		
-		
+	private ArrayList<Index> greedymk2(ArrayList<Index> newPoss){
+		return null;	
 	}
+	
+		
 	public DBTime changeConfig(ArrayList<Index> cur, ArrayList<Index> target){
 		return null;			
 	}
@@ -124,12 +129,33 @@ public class IndexTuner {
 		for (Index ix : sugg){
 			if (!fPlus.contains(ix) && !fMinusSet.contains(ix)){
 				newList.add(ix);
-			}
+			} 
 		}		
+		int indexSugg = curCand.indexOf(sugg);
+		
+		for (int i = 0; i < curCand.size(); i++){
+			ArrayList<Index> s = curCand.get(i);
+			ArrayList<Index> sCons = new ArrayList<Index> (fPlus);
+			for (Index ix : s){
+				if (!fPlus.contains(ix) && !fMinusSet.contains(ix)){
+					sCons.add(ix);
+				}
+			}
+			DBTime minDiff = changeConfig(s, sCons);
+			minDiff.set(minDiff.get() + changeConfig(sCons, s).get());
+			DBTime diff = w.get(i);
+			diff.set(diff.get() + changeConfig(s, sugg).get());
+			diff.set(diff.get() + w.get(indexSugg).get());
+			if (diff.get() < minDiff.get()){
+				w.get(i).set(w.get(i).get() + minDiff.get() - diff.get());
+			}
+		}
 		sugg = newList;
 	}
 	
 	public void updateCandidates(String query){
+		
+
 		
 	}
 	
