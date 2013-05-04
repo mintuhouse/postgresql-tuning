@@ -86,7 +86,29 @@ public class IndexTuner {
 	    getSubsets(superSet, k, 0, new HashSet<Integer>(), res);
 	    return res;
 	}
-		
+	
+	public ArrayList<Index> CISelection(ArrayList<String>  workload) throws Exception{
+		ArrayList<ArrayList<String>> wList = new ArrayList<ArrayList<String>>();
+		for(String query: workload){
+			ArrayList<String> w = new ArrayList<String>();
+			w.add(query);
+			wList.add(w);
+		}
+		ArrayList<Index> CI = new ArrayList<Index>();
+		for(ArrayList<String> w : wList){
+			ArrayList<Index> Is = new ArrayList<Index>();
+			for(String query: w){
+				Is.addAll(extractIndexes(query));
+			}
+			CI.addAll(enumerate(10, Is, w));
+		}
+		return CI;
+	}
+	
+	public ArrayList<Index> enumerate(int k, ArrayList<Index> CI, ArrayList<String> W) throws Exception{
+		return greedymk(W,CI,2,k);
+	}
+	
 	/*
 	 * Called from the init
 	 * can be merged into init
