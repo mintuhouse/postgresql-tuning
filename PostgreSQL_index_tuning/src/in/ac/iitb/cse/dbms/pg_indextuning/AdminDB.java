@@ -40,9 +40,9 @@ public class AdminDB {
 			dropIdxAndCreateHypIdx();
 		}
 		createDBConnections();
-		DBCon.execExplain("SELECT * FROM products p JOIN inventory i ON i.prod_id = p.prod_id");
-		DBCon.execExplain("INSERT INTO orders (customerid, netamount, tax , totalamount ) VALUES (1, 100, 121, 220)");
-		DBCon.execExplain("UPDATE orders SET tax = 10 WHERE customerid=12");
+		//DBCon.execExplain("SELECT * FROM products p JOIN inventory i ON i.prod_id = p.prod_id");
+		//DBCon.execExplain("INSERT INTO orders (customerid, netamount, tax , totalamount ) VALUES (1, 100, 121, 220)");
+		//DBCon.execExplain("UPDATE orders SET tax = 10 WHERE customerid=12");
 	}
 	
 	private void createDBConnections() throws SQLException{
@@ -107,5 +107,20 @@ public class AdminDB {
 		
 	public static void main(String[] args) throws Exception{
 		AdminDB adb = new AdminDB();
+		String sql1 = "SELECT * FROM products JOIN inventory ON inventory.prod_id = products.prod_id WHERE products.category=6 OR products.title = 'ACADEMY'";
+		String sql2 = "SELECT * FROM orders WHERE orders.customerid < 2000 AND orders.orderid<20";
+		String sql3 = "SELECT * FROM customers WHERE customers.customerid<8000 AND customers.creditcardtype = 1";
+		
+		Master master = new Master(adb.ADBCon,adb.ADBCon.curHypConfig);
+		master.addQuery(sql1);
+		//master.addQuery(sql2);
+		//master.addQuery(sql3);
+		ArrayList<Index> sugInd = master.suggest(new ArrayList<Index>(), new ArrayList<Index>());
+		//System.out.println(sugInd.size()+"asadada");//DEBUG
+		for(Index ind: sugInd){
+			System.out.println("Table: "+ind.getTableName());
+			System.out.println("Columns: "+ind.getColumnNames());
+			System.out.println();
+		}
 	}
 }

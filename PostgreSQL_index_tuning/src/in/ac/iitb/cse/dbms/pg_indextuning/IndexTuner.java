@@ -57,6 +57,7 @@ public class IndexTuner {
 		// Or even better don't make the database query to fetch the list of indexes 
 		// 		in DB each time but maintain the list in connection, if DB_NAME is set
 		for(Index i: ADBCon.curHypConfig){
+			//System.out.println(i.name+"asa"+i.getColumnNames());//DEBUG
 			i.drop(ADBCon);
 		}
 		ADBCon.curHypConfig.clear();
@@ -105,10 +106,12 @@ public class IndexTuner {
 			}
 			CI.addAll(enumerate(10, Is, w));
 		}
+		//System.out.println(CI.size()+"asad");//DEBUG
 		return CI;
 	}
 	
 	public ArrayList<Index> enumerate(int k, ArrayList<Index> CI, ArrayList<String> W) throws Exception{
+		//System.out.println("DEBUG1");//DEBUG
 		return greedymk(W,CI,2,k);
 	}
 	
@@ -118,12 +121,15 @@ public class IndexTuner {
 	 */	
 	private ArrayList<Index> greedymk(ArrayList<String> workload, ArrayList<Index> CandIndexes, int m, int k) throws Exception{
 		//Map< Index, DBTime> Cost = new HashMap< Index, DBTime>();
+		//System.out.println(CandIndexes.size()+CandIndexes.get(0).getColumnNames());//DEBUG
 		List<Integer> superSet = new ArrayList<Integer>();	
 		for(int i=0;i<CandIndexes.size();i++){
 			superSet.add(i);
 		}
+		//System.out.println(CandIndexes.size()+"ftrt");//DEBUG
 		List<Set<Integer>> subSets = new ArrayList<Set<Integer>>();
 		subSets = getSubsets(superSet, m);
+		//System.out.println(subSets.size()+"jtrt");//DEBUG
 		ArrayList<ArrayList<Index>> subCIs =  new ArrayList<ArrayList<Index>>();
 		for(Set<Integer> subset: subSets){
 			ArrayList<Index> subCI = new ArrayList<Index>();
@@ -132,19 +138,24 @@ public class IndexTuner {
 			}
 			subCIs.add(subCI);
 		}
+		//System.out.println(subCIs.size()+"trt");//DEBUG
 		Map<DBTime, ArrayList<Index>> cost = new HashMap<DBTime, ArrayList<Index>>();
 		for(ArrayList<Index> CIset: subCIs){
 			DBTime cst = costOf(workload, CIset);
 			cost.put(cst, CIset);
 		}
+		//System.out.println(cost.size()+"atrt");//DEBUG
 		Map<DBTime, ArrayList<Index>> sortedCost = new TreeMap<DBTime, ArrayList<Index>>(cost);
 		//TODO: Select top-k index configurations to support updates
-		
+
+		//System.out.println(sortedCost.size()+"trt");//DEBUG
 		ArrayList<Index> S = null;
 		for (Map.Entry entry : sortedCost.entrySet()) {
+			//System.out.println(sortedCost.size()+"ltrt");//DEBUG
 			S = new ArrayList<Index>((ArrayList<Index>)entry.getValue());
 			ArrayList<Index> CIs = new ArrayList<Index>(CandIndexes);
 			CIs.removeAll(S);
+			//System.out.println(S.size()+"trt");//DEBUG
 			DBTime minCost 	= costOf(workload, S);
 			DBTime mCost 	=  new DBTime(minCost.get());
 			while(S.size() < k){
@@ -165,7 +176,9 @@ public class IndexTuner {
 			}			
 			break; //As we need only top-most m-config	
 		}
+		//System.out.println(S.size()+"gfdhgd");//DEBUG
 		return S; 
+		
 	}
 			
 	private ArrayList<Index> extractIndexes(String query){
@@ -231,7 +244,7 @@ public class IndexTuner {
 	}		
 	
 	public void analyze(String query) throws Exception{
-		ArrayList<DBTime> execTime = new ArrayList<DBTime>(curCand.size());
+		ArrayList<DBTime> execTime = new ArrayList<DBTime>();
 		for (ArrayList<Index> conf : curCand){
 			try {
 				execTime.add(whatIf(query, conf));
@@ -269,14 +282,16 @@ public class IndexTuner {
 		}
 		
 		float mini = execTime.get(0).get();
-		for (int i = 1; i < w.size(); i++){
+		for (int i = 0; i < w.size(); i++){
 			mini = Math.min(mini, execTime.get(i).get());			
 		}
 		
-		for (int i = 1; i < w.size(); i++){
-			if (execTime.get(i).get() == mini && pres.get(i)){
+		for (int i = 0; i < w.size(); i++){
+			//if (execTime.get(i).get() == mini && pres.get(i)){
+			if (execTime.get(i).get() == mini){
 				sugg = curCand.get(i);
 			}
+			//System.out.println(sugg.size()+"sadaweu");//DEBUG
 		}
 	}
 	
@@ -284,13 +299,14 @@ public class IndexTuner {
 		ArrayList<Index> newList = new ArrayList<Index>(fPlus); 
 		TreeSet<Index> fMinusSet = new TreeSet<Index> (fMinus);
 		for (Index ix : sugg){
-			if (!fPlus.contains(ix) && !fMinusSet.contains(ix)){
+			//if (!fPlus.contains(ix) && !fMinusSet.contains(ix)){
+			if ( !fMinusSet.contains(ix)){
 				newList.add(ix);
 			} 
 		}		
 		int indexSugg = curCand.indexOf(sugg);
 		
-		for (int i = 0; i < curCand.size(); i++){
+		for (int i = 0; i < curCand.size() && indexSugg!=-1; i++){
 			ArrayList<Index> s = curCand.get(i);
 			ArrayList<Index> sCons = new ArrayList<Index> (fPlus);
 			for (Index ix : s){
@@ -315,13 +331,12 @@ public class IndexTuner {
 	 * this returns back the set of indices to be recommended
 	 */			
 	public ArrayList<Index> recommend(String query, ArrayList<Index> fPlus, ArrayList<Index> fMinus) throws Exception{
-		updateCandidates(query);
 		analyze(query);
 		feedback(fPlus, fMinus);
 		return sugg;		
 	}
 	
-	
+	/*
 	public static void main(String[] args){
 		TGSqlParser sqlparser = new TGSqlParser(EDbVendor.dbvmssql);
         sqlparser.sqltext = "Select firstname, t.lastname, age from Clients t join Road r ON t.id = r.nid where t.State = \"CA\" and  r.City = \"Hollywood\"";
@@ -335,5 +350,5 @@ public class IndexTuner {
         }
         else
             System.out.println(sqlparser.getErrormessage( ));
-	}
+	}*/
 }

@@ -174,13 +174,14 @@ public class DBConnection {
 			String index_name 	= rs.getString("index_name");
 			String column_names = rs.getString("column_names");
 			boolean ishyp		= rs.getBoolean("indishypothetical");
-			Index ind = new Index(pgc_idx_oid, index_name, table_name, 0, column_names, "", false, DB_NAME, true);
+			Index ind = new Index(pgc_idx_oid, index_name, table_name, 0, column_names, "", true, DB_NAME, true);
 			if(ishyp){
 				curHypConfig.add(ind);
+				System.out.println(ind.name);//DEBUG
 			}
         }
 	}
-	
+	/*
 	public static void main(String[] args) throws SQLException{
 		//DBConnection DBCon =  new DBConnection();
 		//DBCon.createConnection(DB_NAME);
@@ -190,5 +191,5 @@ public class DBConnection {
 		//DBCon.execQuery("CREATE DATABASE it_dellstore2 WITH TEMPLATE dellstore2");
 		//DBCon.closeConnection();
 	}
-
+	*/
 }

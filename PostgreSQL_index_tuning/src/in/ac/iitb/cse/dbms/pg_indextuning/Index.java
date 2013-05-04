@@ -8,7 +8,7 @@ import java.util.Collections;
 
 public class Index implements Comparable<Index>{
 	private int id;
-	private String name;
+	public String name;
 	private String table_name;
 	private int table_id;
 	private ArrayList<String> column_names;
@@ -72,11 +72,19 @@ public class Index implements Comparable<Index>{
 	
 	public void create(DBConnection con) throws Exception{
 		//TODO: Change curHypConfig automatically
+		// Fetch details of created index and fill them appropriately -for now manual index_name
 		if(materialized){
 			System.out.println("ERROR: Trying to re-create materialized index "+ name);
 			return;
 		}
 		if(con.getDBName().equals(dbname)){
+			if(name.equals("")){
+				if(hypothetical){
+					name = "hix_"+getTableName()+"_"+getColumnNames();
+				}else{
+					name = "ix_"+getTableName()+"_"+getColumnNames();
+				}
+			}
 			if(hypothetical){
 				con.execStmt("CREATE HYPOTHETICAL INDEX "+name+" ON "+table_name+" ("+getColumnNames()+")");
 			}else{
