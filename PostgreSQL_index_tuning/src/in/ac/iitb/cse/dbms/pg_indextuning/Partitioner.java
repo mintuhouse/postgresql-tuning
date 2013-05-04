@@ -72,7 +72,7 @@ public class Partitioner {
 	public float calculateWt(Index a, Index b, ArrayList<Index> cand) throws Exception{		
 		
 		float res = 0.0f;
-		for (int i = 0; i < prev; i++){
+		for (int i = 0; i < prev && i < cand.size(); i++){
 			String query = workBench.get(workBench.size() - i - 1);
 			float denom = whatIf(query, cand).get();
 			cand.remove(a);

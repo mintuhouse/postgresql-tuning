@@ -24,7 +24,7 @@ public class IndexTuner {
 		allCand = null; 
 		sugg 	= null;
 		init();
-	}
+	}	
 	
 	private void init(){
 		//TODO : sugg is the current set of indices in the database
