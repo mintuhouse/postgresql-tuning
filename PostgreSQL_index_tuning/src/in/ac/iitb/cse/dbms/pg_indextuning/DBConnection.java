@@ -61,7 +61,7 @@ public class DBConnection {
 	public DBTime execExplain(String query){
 		//TODO: Do it only for select, update, insert queries
 		try {
-			ResultSet rs = stmt.executeQuery("explain "+ query);
+			ResultSet rs = stmt.executeQuery("explain hypothetical "+ query);
 			if(rs.next()){ 
 				String mydata = rs.getString(1);
 				Pattern pattern = Pattern.compile("cost=(.*?) rows=");
