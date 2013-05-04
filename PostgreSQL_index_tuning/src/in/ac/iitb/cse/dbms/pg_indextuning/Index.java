@@ -2,8 +2,11 @@ package in.ac.iitb.cse.dbms.pg_indextuning;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
-public class Index {
+
+
+public class Index implements Comparable<Index>{
 	private int id;
 	private String name;
 	private String table_name;
@@ -22,6 +25,8 @@ public class Index {
 		table_id 		= a_table_id;
 		column_names	= new ArrayList<String>(Arrays.asList(a_column_names.split("\\s*,\\s*")));
 		column_indexes 	= new ArrayList<Integer>(); //TODO
+		Collections.sort(column_names);
+		Collections.sort(column_indexes);
 		hypothetical 	= a_hypothetical;
 		dbname			= a_dbname;
 		materialized	= a_materialized;
@@ -98,5 +103,31 @@ public class Index {
 	public boolean isHypothetical(){
 		return hypothetical;
 	}
+	
+	public static void main(String[] args){
+		ArrayList<Integer> v = new ArrayList<Integer>(20);
+		System.out.println(v.size());
+		v.add(111);
+		System.out.println(v.size());	
+	}
+
+	@Override
+	public int compareTo(Index o) {
+		// TODO Auto-generated method stub
+		if (this.column_names.size() < o.column_names.size()){
+			return -1;
+		} else if (this.column_names.size() > o.column_names.size()){
+			return 1;
+		} else {
+			for (int i = 0; i < this.column_names.size(); i++){
+				int x = this.column_names.get(i).compareTo(o.column_names.get(i));
+				if (x != 0){
+					return x;
+				}
+			}			
+			return 0;
+		}
+	}
+	
 	
 }

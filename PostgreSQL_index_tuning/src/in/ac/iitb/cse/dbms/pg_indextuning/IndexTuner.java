@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
+import java.util.TreeSet;
 
 public class IndexTuner {
 	DBConnection ADBCon			= null;
-	ArrayList<ArrayList<Index> > allCand;
+	ArrayList<Index>  allCand;
 	ArrayList<ArrayList<Index> > curCand;
 	ArrayList<DBTime> w;
 	ArrayList<Index> sugg;
@@ -41,7 +41,7 @@ public class IndexTuner {
 	
 	public DBTime costOf(ArrayList<String> workload, ArrayList<Index> configuration) throws Exception{
 		simulateConfig(configuration);
-		DBTime cst = new DBTime(0.0);
+		DBTime cst = new DBTime(0.0f);
 		for(String query: workload){
 			cst.add(ADBCon.execExplain(query));
 		}
@@ -142,14 +142,18 @@ public class IndexTuner {
 		}
 		return S; 
 	}
-	
+			
+	private ArrayList<Index> extractIndexes(String query){
+		return null;
+	}
+					
 	/*
 	 * Called when a new query is added
 	 */
-	private void greedymk2(){
-		
-		
+	private ArrayList<Index> greedymk2(ArrayList<Index> newPoss){
+		return null;	
 	}
+	
 	public DBTime changeConfig(ArrayList<Index> cur, ArrayList<Index> target) throws Exception{
 		//TODO: Improve efficiency by not re-creating all indexes each time.
 		ArrayList<Index> commonInd 	= new ArrayList<Index>();
@@ -167,7 +171,7 @@ public class IndexTuner {
 			}
 		}
 		simulateConfig(commonInd);
-		DBTime cost = new DBTime(0.0);
+		DBTime cost = new DBTime(0.0f);
 		for(Index index: newInd){
 			cost.add(costOfCreating(index));
 		}
@@ -185,17 +189,91 @@ public class IndexTuner {
 		index.drop(ADBCon);
 		preIndexCost.diff(postIndexCost);
 		return preIndexCost;
+	}		
+	
+	public void analyze(String query) throws Exception{
+		ArrayList<DBTime> execTime = new ArrayList<DBTime>(curCand.size());
+		for (ArrayList<Index> conf : curCand){
+			try {
+				execTime.add(whatIf(query, conf));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		ArrayList<DBTime> wdash = new ArrayList<DBTime>(w);
+		ArrayList<Boolean> pres = new ArrayList<Boolean>(curCand.size());
+		
+		// TODO: change below as two iterators for 2 arraylist
+		for (int i = 0; i < w.size(); i++){
+			w.get(i).set(w.get(i).get() +  execTime.get(i).get());
+			pres.add(false);
+		}
+		
+		for (int i = 0; i < w.size(); i++){
+			float mini = w.get(i).get();
+			for (int j = 0; j < w.size(); j++){
+				mini = Math.min(mini, w.get(j).get() + 
+						changeConfig(curCand.get(i), curCand.get(j)).get());
+			}
+			if (mini == w.get(i).get()){
+				pres.add(true);
+			}
+			wdash.get(i).set(mini);
+		}
+		
+		for (int i = 0; i < w.size(); i++){
+			DBTime changeTime = changeConfig(curCand.get(i), sugg);
+			execTime.get(i).set(wdash.get(i).get() + changeTime.get());
+			w.get(i).set(wdash.get(i).get());
+		}
+		
+		float mini = execTime.get(0).get();
+		for (int i = 1; i < w.size(); i++){
+			mini = Math.min(mini, execTime.get(i).get());			
+		}
+		
+		for (int i = 1; i < w.size(); i++){
+			if (execTime.get(i).get() == mini && pres.get(i)){
+				sugg = curCand.get(i);
+			}
+		}
 	}
 	
-	public void analyze(String query){		
-
-	}
-	
-	public void feedback(ArrayList<Index> fPlus, ArrayList<Index> fMinus){
-
+	public void feedback(ArrayList<Index> fPlus, ArrayList<Index> fMinus) throws Exception{
+		ArrayList<Index> newList = new ArrayList<Index>(fPlus); 
+		TreeSet<Index> fMinusSet = new TreeSet<Index> (fMinus);
+		for (Index ix : sugg){
+			if (!fPlus.contains(ix) && !fMinusSet.contains(ix)){
+				newList.add(ix);
+			} 
+		}		
+		int indexSugg = curCand.indexOf(sugg);
+		
+		for (int i = 0; i < curCand.size(); i++){
+			ArrayList<Index> s = curCand.get(i);
+			ArrayList<Index> sCons = new ArrayList<Index> (fPlus);
+			for (Index ix : s){
+				if (!fPlus.contains(ix) && !fMinusSet.contains(ix)){
+					sCons.add(ix);
+				}
+			}
+			DBTime minDiff = changeConfig(s, sCons);
+			minDiff.set(minDiff.get() + changeConfig(sCons, s).get());
+			DBTime diff = w.get(i);
+			diff.set(diff.get() + changeConfig(s, sugg).get());
+			diff.set(diff.get() + w.get(indexSugg).get());
+			if (diff.get() < minDiff.get()){
+				w.get(i).set(w.get(i).get() + minDiff.get() - diff.get());
+			}
+		}
+		sugg = newList;
 	}
 	
 	public void updateCandidates(String query){
+		
+
 		
 	}
 	
@@ -203,7 +281,7 @@ public class IndexTuner {
 	 * This is the main function to called
 	 * this returns back the set of indices to be recommended
 	 */			
-	public ArrayList<Index> recommend(String query, ArrayList<Index> fPlus, ArrayList<Index> fMinus){
+	public ArrayList<Index> recommend(String query, ArrayList<Index> fPlus, ArrayList<Index> fMinus) throws Exception{
 		updateCandidates(query);
 		analyze(query);
 		feedback(fPlus, fMinus);

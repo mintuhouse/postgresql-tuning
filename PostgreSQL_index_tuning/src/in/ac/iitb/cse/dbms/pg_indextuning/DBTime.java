@@ -1,17 +1,18 @@
 package in.ac.iitb.cse.dbms.pg_indextuning;
 
-public class DBTime {
-	private Double time;
+
+public class DBTime implements Comparable<DBTime> {
+	private Float time;
 	
-	public DBTime(Double x){
+	public DBTime(Float x){
 		time = x;
 	}
 	
-	public Double get(){
+	public Float get(){
 		return time;
 	}
 	
-	public void set(Double x){
+	public void set(Float x){
 		time = x;
 	}
 	
@@ -22,5 +23,18 @@ public class DBTime {
 	public void diff(DBTime y){
 		time = time - y.get();
 	}
+
+	@Override
+	public int compareTo(DBTime o) {
+		// TODO Auto-generated method stub
+		if (this.time < o.time){
+			return -1; 
+		} else if (this.time > o.time){
+			return 1;
+		} else {
+			return 0;
+		}
+	} 
+	
 
 }
