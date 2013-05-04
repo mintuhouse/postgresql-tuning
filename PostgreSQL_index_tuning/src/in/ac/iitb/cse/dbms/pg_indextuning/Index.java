@@ -48,6 +48,7 @@ public class Index {
 	
 	
 	public void drop(DBConnection con) throws Exception{
+		//TODO: Change curHypConfig automatically
 		if(!materialized){
 			System.out.println("ERROR: Trying to drop a non-materialized index "+ name);
 			return;
@@ -65,6 +66,7 @@ public class Index {
 	}
 	
 	public void create(DBConnection con) throws Exception{
+		//TODO: Change curHypConfig automatically
 		if(materialized){
 			System.out.println("ERROR: Trying to re-create materialized index "+ name);
 			return;
@@ -81,7 +83,15 @@ public class Index {
 		}
 	}
 	
-	private String getColumnNames(){
+	public String getDBName(){
+		return dbname;
+	}
+	
+	public String getTableName(){
+		return table_name;
+	}
+	
+	public String getColumnNames(){
 		return column_names.toString().replace("[", "").replace("]", "");
 	}
 	

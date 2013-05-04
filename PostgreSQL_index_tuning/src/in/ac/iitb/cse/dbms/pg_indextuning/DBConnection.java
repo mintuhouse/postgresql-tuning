@@ -35,6 +35,7 @@ public class DBConnection {
 		} 	
 		if(!DB_NAME.equals("")){
 			try {
+				curHypConfig = new ArrayList<Index>();
 				loadCurrentConfiguration();
 			} catch (Exception e) {
 				System.out.println("Cannot load initial configuration i.e., hyp indexes");
@@ -69,7 +70,7 @@ public class DBConnection {
 				{
 					String group = matcher.group(1);
 					String[] parts = group.split("\\.\\.");
-					DBTime t = new DBTime(Float.parseFloat(parts[1]));
+					DBTime t = new DBTime(Double.parseDouble(parts[1]));
 					return t;
 				}
 			}
